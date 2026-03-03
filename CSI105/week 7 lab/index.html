@@ -1,11 +1,207 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="th">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
+  <title>Week นี้ไม่มีเรียน!</title>
+  <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@400;700;900&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #000;
+      font-family: 'Prompt', sans-serif;
+      overflow: hidden;
+      position: relative;
+    }
+
+    /* ===== Fireworks Canvas ===== */
+    canvas {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+    }
+
+    .main-text {
+      position: relative;
+      z-index: 1;
+      font-size: 3.5rem;
+      font-weight: 900;
+      color: #fff;
+      text-shadow: 0 0 30px rgba(255, 255, 255, 0.4);
+      animation: glow 2.5s ease-in-out infinite alternate;
+    }
+
+    @keyframes glow {
+      0% {
+        text-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+      }
+
+      100% {
+        text-shadow: 0 0 50px rgba(255, 255, 255, 0.7), 0 0 80px rgba(255, 255, 255, 0.3);
+      }
+    }
+  </style>
 </head>
+
 <body>
-  
+
+  <canvas id="fireworks"></canvas>
+
+  <h1 class="main-text">Week นี้ไม่มีเรียน!</h1>
+
+  <script>
+    const canvas = document.getElementById('fireworks');
+    const ctx = canvas.getContext('2d');
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    window.addEventListener('resize', () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    });
+
+    class Particle {
+      constructor(x, y, angle, speed, life) {
+        this.x = x;
+        this.y = y;
+        this.vx = Math.cos(angle) * speed;
+        this.vy = Math.sin(angle) * speed;
+        this.alpha = 1;
+        this.life = life;
+        this.decay = 1 / life;
+        this.size = Math.random() * 2 + 1;
+      }
+
+      update() {
+        this.x += this.vx;
+        this.y += this.vy;
+        this.vy += 0.03; // gravity
+        this.vx *= 0.99;
+        this.vy *= 0.99;
+        this.alpha -= this.decay;
+      }
+
+      draw() {
+        ctx.save();
+        ctx.globalAlpha = Math.max(this.alpha, 0);
+        ctx.fillStyle = '#fff';
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.restore();
+      }
+    }
+
+    class Rocket {
+      constructor() {
+        this.x = Math.random() * canvas.width;
+        this.y = canvas.height;
+        this.targetY = Math.random() * canvas.height * 0.4 + canvas.height * 0.1;
+        this.speed = Math.random() * 3 + 4;
+        this.alive = true;
+        this.trail = [];
+      }
+
+      update() {
+        this.trail.push({ x: this.x, y: this.y, alpha: 0.6 });
+        if (this.trail.length > 8) this.trail.shift();
+
+        this.y -= this.speed;
+
+        if (this.y <= this.targetY) {
+          this.alive = false;
+        }
+      }
+
+      draw() {
+        // trail
+        for (let i = 0; i < this.trail.length; i++) {
+          const t = this.trail[i];
+          ctx.save();
+          ctx.globalAlpha = (i / this.trail.length) * 0.4;
+          ctx.fillStyle = '#fff';
+          ctx.beginPath();
+          ctx.arc(t.x, t.y, 1.5, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.restore();
+        }
+
+        // head
+        ctx.save();
+        ctx.globalAlpha = 0.9;
+        ctx.fillStyle = '#fff';
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, 2, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.restore();
+      }
+    }
+
+    let particles = [];
+    let rockets = [];
+
+    function explode(x, y) {
+      const count = Math.floor(Math.random() * 60 + 60);
+      for (let i = 0; i < count; i++) {
+        const angle = (Math.PI * 2 / count) * i + Math.random() * 0.2;
+        const speed = Math.random() * 4 + 1.5;
+        const life = Math.random() * 40 + 40;
+        particles.push(new Particle(x, y, angle, speed, life));
+      }
+    }
+
+    function spawnRocket() {
+      rockets.push(new Rocket());
+    }
+
+    let lastSpawn = 0;
+    const spawnInterval = 800;
+
+    function animate(time) {
+      ctx.fillStyle = 'rgba(0, 0, 0, 0.15)';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      if (time - lastSpawn > spawnInterval) {
+        spawnRocket();
+        if (Math.random() > 0.5) spawnRocket(); // sometimes two at once
+        lastSpawn = time;
+      }
+
+      // update rockets
+      for (let i = rockets.length - 1; i >= 0; i--) {
+        rockets[i].update();
+        rockets[i].draw();
+        if (!rockets[i].alive) {
+          explode(rockets[i].x, rockets[i].y);
+          rockets.splice(i, 1);
+        }
+      }
+
+      // update particles
+      for (let i = particles.length - 1; i >= 0; i--) {
+        particles[i].update();
+        particles[i].draw();
+        if (particles[i].alpha <= 0) {
+          particles.splice(i, 1);
+        }
+      }
+
+      requestAnimationFrame(animate);
+    }
+
+    requestAnimationFrame(animate);
+  </script>
+
 </body>
+
 </html>
