@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+    <h1>Welcome to My Website</h1>
+
+    <header>
+        <nav>
+            <a href="https://www.youtube.com/">youtube</a> |
+            <a href="https://www.google.com/">google</a> |
+            <a href="https://www.facebook.com/">facebook</a> |
+            <a href="https://www.twitter.com/">twitter</a> |
+            <a href="https://www.instagram.com/">instagram</a> |
+            <a href="https://www.linkedin.com/">linkedin</a>
+        </nav>
+    </header>   
+
+    <main>
+        <h2>Main Content</h2>
+        <p>This is the main content of the website.</p>
+    </main>
+    <aside>
+        <h2>Sidebar</h2>
+        <ul>
+            <li><a href="#A5BAE4">HTML</a></li>
+        </ul>
+    </aside>
+
+
+    <iframe width="560" height="315" src="https://youtu.be/Oy0GcgWEU5A?si=_uzp_Kss_qTXytMY" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+    
+    <audio controls autoplay>
+        <source src="audio.mp3" type="audio/mp3">
+        Your browser does not support the audio element.
+    </audio>
+
+    <video controls>
+        <source src="video.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+
+    <form>
+        <table>
+            <tbody>
+                <tr>
+                    <td>Name : </td>
+                    <td>
+                        <input type="text" name="name" id="name" placeholder="Enter Name">
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>Telephone : </td>
+                    <td>
+                        <input type="text" name="telephone" id="telephone" placeholder="Enter Telephone">
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>gender : </td>
+                    <td>
+                        <input type="radio" name="gender" id="gender" value="">
+                        <label for="gender">Male</label>
+                        <input type="radio" name="gender" id="gender" value="female">
+                        <label for="gender">Female</label>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td></td>
+                    <td><button type="submit">Submit</button></td>
+                </tr>
+
+
+            </tbody>
+        </table>
+    </form>
+
+
+    <!--Block element-->
+    <div style="background-color : lightblue;"> นี่คือ Block Level element </div>
+    <p style="background-color : lightgreen;"> นี่ก็คือ Block Level element </p>
+    <!--Inline element-->
+    <span style="background-color : yellow;"> นี่คือ Inline element </span>
+    <span style="background-color : orange;"> นี่ก็คือ Inline element </span>
+    <br><br>
+
+    <table border="2" width="100%" bgcolor="FA4DDB" cellpadding="5" cellspacing="5">
+        <thead bgcolor="D980D3">
+            <tr>
+                <th>name</th>
+                <th>Telephone</th>
+                <th>Email</th>
+                <th>Money</th>
+            </tr>
+        </thead>
+
+        <tbody bgcolor="FCD4F9">
+            <tr>
+                <td rowspan="2">THANAKON</td>
+                <td align="center">0842391847</td>
+                <td align="center">thanakon.khw@spu.net</td>
+                <td bgcolor="#A5BAE4">$1000</td>
+            </tr>
+            <tr>
+                <td align="center">0842391847</td>
+                <td align="center">jirawat.khw@spu.net</td>
+                <td bgcolor="#A5BAE4">$2000</td>
+            </tr>
+            <tr>
+                <td>COMSIC</td>
+                <td></td>
+                <td></td>
+                <td bgcolor="#A5BAE4">$3000</td>
+            </tr>
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="2"></td>
+                <td align="right">Sum</td>
+                <td>$6000</td>
+            </tr>
+        </tfoot>
+
+</body>
+
+</html>

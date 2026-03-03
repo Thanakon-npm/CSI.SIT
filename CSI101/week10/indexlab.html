@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <title>รวมเลขจนกว่าจะกรอก 0</title>
+</head>
+<body>
+  <h2>กรอกตัวเลข (กรอก 0 เพื่อหยุด)</h2>
+  <input type="number" id="numberInput" placeholder="กรอกตัวเลข">
+  <button onclick="addNumber()">เพิ่ม</button>
+  <p id="result">ผลรวม: 0</p>
+  <h3>รายการตัวเลขที่กรอก:</h3>
+  <ul id="numberList"></ul>
+
+  <script>
+    let total = 0;
+
+    function addNumber() {
+      const input = document.getElementById("numberInput");
+      const value = parseInt(input.value);
+
+      if (isNaN(value)) {
+        alert("กรุณากรอกตัวเลขที่ถูกต้อง");
+        return;
+      }
+
+      if (value === 0) {
+        alert("หยุดรับค่าแล้ว\nผลรวมทั้งหมดคือ: " + total);
+        input.disabled = true;
+        return;
+      }
+
+      total += value;
+      document.getElementById("result").textContent = "ผลรวม: " + total;
+
+      // เพิ่มตัวเลขลงในรายการ
+      const list = document.getElementById("numberList");
+      const listItem = document.createElement("li");
+      listItem.textContent = value;
+      list.appendChild(listItem);
+
+      input.value = "";
+      input.focus();
+    }
+  </script>
+</body>
+</html>

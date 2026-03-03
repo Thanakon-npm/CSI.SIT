@@ -1,0 +1,866 @@
+<!doctype html>
+<html lang="th">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>LinkedList Implementation</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family:
+          -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial,
+          sans-serif;
+        background-color: #ffffff;
+        color: #1a1a1a;
+        line-height: 1.6;
+      }
+
+      .container {
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 40px 20px;
+      }
+
+      .header {
+        margin-bottom: 40px;
+        border-bottom: 1px solid #e0e0e0;
+        padding-bottom: 30px;
+      }
+
+      .header h1 {
+        font-size: 2em;
+        font-weight: 300;
+        margin-bottom: 8px;
+        letter-spacing: -0.5px;
+      }
+
+      .header p {
+        font-size: 0.95em;
+        color: #666;
+        font-weight: 400;
+      }
+
+      .content {
+        background: #ffffff;
+        padding: 0;
+      }
+
+      #message {
+        padding: 12px 16px;
+        margin-bottom: 20px;
+        border-left: 3px solid #ccc;
+        display: none;
+        font-size: 0.95em;
+      }
+
+      #message.success {
+        background-color: #f0f9f7;
+        color: #1a4d3d;
+        border-left-color: #2d7a6e;
+        display: block;
+      }
+
+      #message.error {
+        background-color: #fef5f5;
+        color: #6b2a2a;
+        border-left-color: #d46b6b;
+        display: block;
+      }
+
+      .info-panel {
+        padding: 24px;
+        margin-bottom: 32px;
+        border: 1px solid #f0f0f0;
+        background: #fafafa;
+      }
+
+      .info-panel p {
+        margin: 10px 0;
+        font-size: 0.95em;
+        color: #333;
+      }
+
+      .visualization {
+        padding: 32px 24px;
+        margin-bottom: 40px;
+        border: 1px solid #f0f0f0;
+        background: #fafafa;
+        min-height: 160px;
+      }
+
+      .node-container {
+        display: flex;
+        gap: 12px;
+        align-items: center;
+        flex-wrap: wrap;
+      }
+
+      .node {
+        background-color: #ffffff;
+        border: 1px solid #d0d0d0;
+        padding: 12px 16px;
+        min-width: 70px;
+        text-align: center;
+        font-weight: 500;
+        font-size: 0.9em;
+        color: #1a1a1a;
+      }
+
+      .arrow {
+        font-size: 1.2em;
+        color: #999;
+        font-weight: 300;
+      }
+
+      .empty-message {
+        color: #999;
+        font-size: 0.9em;
+        padding: 30px;
+        text-align: center;
+      }
+
+      .section {
+        margin-bottom: 40px;
+        padding-bottom: 0;
+        border-bottom: none;
+      }
+
+      .section:last-child {
+        margin-bottom: 0;
+      }
+
+      .section h2 {
+        color: #1a1a1a;
+        margin-bottom: 20px;
+        font-size: 1.2em;
+        font-weight: 600;
+        letter-spacing: -0.3px;
+      }
+
+      .input-group {
+        margin-bottom: 16px;
+      }
+
+      .input-group label {
+        display: block;
+        margin-bottom: 6px;
+        font-weight: 500;
+        color: #333;
+        font-size: 0.9em;
+      }
+
+      .input-group input {
+        width: 100%;
+        padding: 10px 12px;
+        border: 1px solid #d0d0d0;
+        background: #ffffff;
+        font-size: 0.95em;
+        transition: border-color 0.2s;
+      }
+
+      .input-group input:focus {
+        outline: none;
+        border-color: #1a1a1a;
+      }
+
+      .btn-group {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+        margin-bottom: 20px;
+      }
+
+      .btn {
+        padding: 10px 16px;
+        border: 1px solid #1a1a1a;
+        background: #ffffff;
+        color: #1a1a1a;
+        font-size: 0.9em;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.2s;
+        flex: 1;
+        min-width: 140px;
+      }
+
+      .btn:hover {
+        background: #1a1a1a;
+        color: #ffffff;
+      }
+
+      .btn-primary {
+        border-color: #1a1a1a;
+      }
+
+      .btn-success {
+        border-color: #1a1a1a;
+      }
+
+      .btn-danger {
+        border-color: #1a1a1a;
+      }
+
+      .btn-info {
+        border-color: #1a1a1a;
+      }
+
+      .output-box {
+        background-color: #fafafa;
+        padding: 16px;
+        border: 1px solid #f0f0f0;
+        margin-top: 16px;
+        font-family:
+          "SF Mono", Monaco, "Cascadia Code", "Roboto Mono", Consolas,
+          "Courier New", monospace;
+        min-height: 100px;
+        overflow-y: auto;
+        max-height: 300px;
+        color: #333;
+        font-size: 0.85em;
+      }
+
+      @media (max-width: 600px) {
+        .container {
+          padding: 24px 16px;
+        }
+
+        .header h1 {
+          font-size: 1.6em;
+        }
+
+        .btn {
+          min-width: 120px;
+          flex: 0 1 calc(50% - 4px);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <h1>🔗 LinkedList Implementation</h1>
+        <p>
+          Management List (Create | Delete List) และ Management data-Node in
+          List
+        </p>
+      </div>
+
+      <div class="content">
+        <div id="message"></div>
+
+        <div class="info-panel">
+          <p>
+            <strong>📊 จำนวนข้อมูล (Size):</strong> <span id="listSize">0</span>
+          </p>
+          <p><strong>📍 Head Node:</strong> <span id="headNode">null</span></p>
+          <p><strong>📍 Tail Node:</strong> <span id="tailNode">null</span></p>
+        </div>
+
+        <div class="visualization">
+          <h3 style="margin-bottom: 15px; color: #1e3c72">
+            📋 LinkedList Visualization
+          </h3>
+          <div id="linkedListDisplay" class="node-container">
+            <div class="empty-message">LinkedList ว่างเปล่า</div>
+          </div>
+        </div>
+
+        <!-- Section 1: Management List -->
+        <div class="section">
+          <h2>1️⃣ Management List (Create | Delete List)</h2>
+
+          <div class="input-group">
+            <label for="listName">📝 List Name:</label>
+            <input
+              type="text"
+              id="listName"
+              placeholder="กรอกชื่อ list (เช่น List A, Animals)"
+            />
+          </div>
+
+          <div class="input-group">
+            <label for="listSelector">📋 Select List to Display:</label>
+            <select
+              id="listSelector"
+              onchange="selectList()"
+              style="
+                width: 100%;
+                padding: 10px 12px;
+                border: 1px solid #d0d0d0;
+                background: #ffffff;
+                font-size: 0.95em;
+              "
+            >
+              <option value="-1">-- No List --</option>
+            </select>
+          </div>
+          <div class="btn-group">
+            <button class="btn btn-success" onclick="createList()">
+              ✨ Create New List
+            </button>
+            <button class="btn btn-danger" onclick="deleteList()">
+              🗑️ Delete List
+            </button>
+          </div>
+        </div>
+
+        <!-- Section 2: Management data-Node -->
+        <div class="section">
+          <h2>2️⃣ Management data-Node in List</h2>
+
+          <div class="input-group">
+            <label for="dataInput"
+              >📝 Data (สำหรับ push, unshift, insert, remove):</label
+            >
+            <input type="text" id="dataInput" placeholder="กรอกข้อมูล" />
+          </div>
+
+          <div class="input-group">
+            <label for="indexInput"
+              >📍 Index (สำหรับ get, set, insert, remove):</label
+            >
+            <input
+              type="number"
+              id="indexInput"
+              placeholder="กรอก index (เริ่มจาก 0)"
+              min="0"
+            />
+          </div>
+
+          <div class="input-group">
+            <label for="newDataInput">🔄 New Data (สำหรับ set):</label>
+            <input type="text" id="newDataInput" placeholder="กรอกข้อมูลใหม่" />
+          </div>
+
+          <div class="btn-group">
+            <button class="btn btn-primary" onclick="pushData()">
+              ➕ push(data)
+            </button>
+            <button class="btn btn-primary" onclick="popData()">
+              ⬆️ pop()
+            </button>
+            <button class="btn btn-primary" onclick="unshiftData()">
+              ⬅️ unshift(data)
+            </button>
+            <button class="btn btn-primary" onclick="shiftData()">
+              ➡️ shift()
+            </button>
+          </div>
+
+          <div class="btn-group">
+            <button class="btn btn-info" onclick="getData()">
+              🔍 get(index)
+            </button>
+            <button class="btn btn-info" onclick="setData()">
+              ✏️ set(index, newData)
+            </button>
+            <button class="btn btn-success" onclick="insertData()">
+              📌 insert(index, data)
+            </button>
+            <button class="btn btn-danger" onclick="removeData()">
+              ❌ remove(index)
+            </button>
+          </div>
+
+          <div class="output-box" id="outputBox">Output จะแสดงที่นี่...</div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      /**
+       * คลาส Node สำหรับเก็บข้อมูลใน LinkedList
+       */
+      class Node {
+        constructor(data) {
+          this.data = data;
+          this.next = null;
+        }
+      }
+
+      /**
+       * คลาส LinkedList ตาม Interface ที่กำหนด
+       */
+      class LinkedList {
+        constructor() {
+          this.head = null;
+          this.size = 0;
+        }
+
+        /**
+         * push(data) - เพิ่มข้อมูลท้ายสุด
+         */
+        push(data) {
+          const newNode = new Node(data);
+
+          if (!this.head) {
+            this.head = newNode;
+          } else {
+            let current = this.head;
+            while (current.next) {
+              current = current.next;
+            }
+            current.next = newNode;
+          }
+          this.size++;
+        }
+
+        /**
+         * pop() - ลบและคืนค่าข้อมูลท้ายสุด
+         */
+        pop() {
+          if (!this.head) {
+            return null;
+          }
+
+          if (!this.head.next) {
+            const data = this.head.data;
+            this.head = null;
+            this.size--;
+            return data;
+          }
+
+          let current = this.head;
+          while (current.next.next) {
+            current = current.next;
+          }
+
+          const data = current.next.data;
+          current.next = null;
+          this.size--;
+          return data;
+        }
+
+        /**
+         * unshift(data) - เพิ่มข้อมูลหน้าสุด
+         */
+        unshift(data) {
+          const newNode = new Node(data);
+          newNode.next = this.head;
+          this.head = newNode;
+          this.size++;
+        }
+
+        /**
+         * shift() - ลบและคืนค่าข้อมูลหน้าสุด
+         */
+        shift() {
+          if (!this.head) {
+            return null;
+          }
+
+          const data = this.head.data;
+          this.head = this.head.next;
+          this.size--;
+          return data;
+        }
+
+        /**
+         * get(index) - คืนค่าข้อมูลที่ index ที่กำหนด
+         */
+        get(index) {
+          if (index < 0 || index >= this.size) {
+            return null;
+          }
+
+          let current = this.head;
+          for (let i = 0; i < index; i++) {
+            current = current.next;
+          }
+          return current.data;
+        }
+
+        /**
+         * set(index, newData) - แก้ไขข้อมูลที่ index ที่กำหนด
+         */
+        set(index, newData) {
+          if (index < 0 || index >= this.size) {
+            return false;
+          }
+
+          let current = this.head;
+          for (let i = 0; i < index; i++) {
+            current = current.next;
+          }
+          current.data = newData;
+          return true;
+        }
+
+        /**
+         * insert(index, data) - แทรกข้อมูลที่ index ที่กำหนด
+         */
+        insert(index, data) {
+          if (index < 0 || index > this.size) {
+            return false;
+          }
+
+          if (index === 0) {
+            this.unshift(data);
+            return true;
+          }
+
+          const newNode = new Node(data);
+          let current = this.head;
+
+          for (let i = 0; i < index - 1; i++) {
+            current = current.next;
+          }
+
+          newNode.next = current.next;
+          current.next = newNode;
+          this.size++;
+          return true;
+        }
+
+        /**
+         * remove(index) - ลบและคืนค่าข้อมูลที่ index ที่กำหนด
+         */
+        remove(index) {
+          if (index < 0 || index >= this.size) {
+            return null;
+          }
+
+          if (index === 0) {
+            return this.shift();
+          }
+
+          let current = this.head;
+          for (let i = 0; i < index - 1; i++) {
+            current = current.next;
+          }
+
+          const data = current.next.data;
+          current.next = current.next.next;
+          this.size--;
+          return data;
+        }
+
+        /**
+         * toArray() - แปลง LinkedList เป็น Array สำหรับการแสดงผล
+         */
+        toArray() {
+          const arr = [];
+          let current = this.head;
+          while (current) {
+            arr.push(current.data);
+            current = current.next;
+          }
+          return arr;
+        }
+
+        /**
+         * getTail() - คืนค่า Node ท้ายสุด
+         */
+        getTail() {
+          if (!this.head) return null;
+
+          let current = this.head;
+          while (current.next) {
+            current = current.next;
+          }
+          return current.data;
+        }
+      }
+
+      // สร้าง LinkedList instance
+      let linkedList = new LinkedList();
+      let listHistory = []; // เก็บประวัติ LinkedList ทั้งหมด
+      let listNames = []; // เก็บชื่อของแต่ละ LinkedList
+      let currentListIndex = -1; // index ของ LinkedList ที่แสดงอยู่ปัจจุบัน
+
+      /**
+       * แสดงข้อความแจ้งเตือน
+       */
+      function showMessage(text, type = "info") {
+        const messageDiv = document.getElementById("message");
+        messageDiv.innerHTML = `<div class="message ${type}">${text}</div>`;
+        setTimeout(() => {
+          messageDiv.innerHTML = "";
+        }, 3000);
+      }
+
+      /**
+       * แสดงผลใน Output Box
+       */
+      function showOutput(text) {
+        document.getElementById("outputBox").textContent = text;
+      }
+
+      /**
+       * อัพเดทการแสดงผล LinkedList
+       */
+      function updateDisplay() {
+        const displayDiv = document.getElementById("linkedListDisplay");
+        const sizeSpan = document.getElementById("listSize");
+        const headSpan = document.getElementById("headNode");
+        const tailSpan = document.getElementById("tailNode");
+
+        const arr = linkedList.toArray();
+
+        sizeSpan.textContent = linkedList.size;
+        headSpan.textContent = linkedList.head ? linkedList.head.data : "null";
+        tailSpan.textContent = linkedList.getTail() || "null";
+
+        if (arr.length === 0) {
+          displayDiv.innerHTML =
+            '<div class="empty-message">LinkedList ว่างเปล่า</div>';
+        } else {
+          displayDiv.innerHTML = arr
+            .map((item, index) => {
+              return `
+                        <div class="node">
+                            ${item}
+                            <div class="node-index">${index}</div>
+                        </div>
+                        ${index < arr.length - 1 ? '<div class="arrow">→</div>' : ""}
+                    `;
+            })
+            .join("");
+        }
+      }
+
+      /**
+       * อัพเดท dropdown ของเลือก lists
+       */
+      function updateListDropdown() {
+        const selector = document.getElementById("listSelector");
+        selector.innerHTML = '<option value="-1">-- No List --</option>';
+
+        listHistory.forEach((list, index) => {
+          const arr = list.toArray();
+          const listName = listNames[index] || `List ${index + 1}`;
+          const option = document.createElement("option");
+          option.value = index;
+          option.textContent = `${listName}: [${arr.join(", ")}]`;
+          selector.appendChild(option);
+        });
+
+        if (currentListIndex >= 0) {
+          selector.value = currentListIndex;
+        }
+      }
+
+      /**
+       * เลือก LinkedList จากประวัติ
+       */
+      function selectList() {
+        const selector = document.getElementById("listSelector");
+        currentListIndex = parseInt(selector.value);
+
+        if (currentListIndex === -1) {
+          linkedList = new LinkedList();
+          showMessage("ไม่ได้เลือก List", "info");
+        } else {
+          linkedList = listHistory[currentListIndex];
+          const listName =
+            listNames[currentListIndex] || `List ${currentListIndex + 1}`;
+          showMessage("✅ เลือก " + listName, "success");
+        }
+
+        updateDisplay();
+      }
+
+      /**
+       * 1. Management List Functions
+       */
+      function createList() {
+        let listName = document.getElementById("listName").value.trim();
+        if (!listName) {
+          listName = `List ${listHistory.length + 1}`;
+        }
+
+        const newList = new LinkedList();
+        listHistory.push(newList);
+        listNames.push(listName);
+        currentListIndex = listHistory.length - 1;
+        linkedList = newList;
+
+        document.getElementById("listName").value = "";
+        updateListDropdown();
+        showMessage(
+          "✅ สร้าง LinkedList ชื่อ " + listName + " สำเร็จ",
+          "success",
+        );
+        showOutput("Created new empty LinkedList: " + listName);
+        updateDisplay();
+      }
+
+      function deleteList() {
+        if (currentListIndex === -1) {
+          showMessage("⚠️ ยังไม่มี LinkedList ที่เลือก", "error");
+          return;
+        }
+
+        const deletedName =
+          listNames[currentListIndex] || `List ${currentListIndex + 1}`;
+        listHistory.splice(currentListIndex, 1);
+        listNames.splice(currentListIndex, 1);
+        linkedList = new LinkedList();
+        currentListIndex = -1;
+
+        updateListDropdown();
+        showMessage("🗑️ ลบ " + deletedName + " สำเร็จ", "info");
+        showOutput("Deleted LinkedList: " + deletedName);
+        updateDisplay();
+      }
+
+      /**
+       * 2. Management data-Node Functions
+       */
+      function pushData() {
+        const data = document.getElementById("dataInput").value.trim();
+        if (!data) {
+          showMessage("⚠️ กรุณากรอกข้อมูล", "error");
+          return;
+        }
+
+        linkedList.push(data);
+        showMessage(`✅ push("${data}") สำเร็จ`, "success");
+        showOutput(`Pushed "${data}" to end of list`);
+        document.getElementById("dataInput").value = "";
+        updateDisplay();
+      }
+
+      function popData() {
+        const data = linkedList.pop();
+        if (data === null) {
+          showMessage("❌ LinkedList ว่างเปล่า ไม่สามารถ pop ได้", "error");
+          showOutput("Error: List is empty");
+        } else {
+          showMessage(`✅ pop() คืนค่า "${data}"`, "success");
+          showOutput(`pop() returned: "${data}"`);
+        }
+        updateDisplay();
+      }
+
+      function unshiftData() {
+        const data = document.getElementById("dataInput").value.trim();
+        if (!data) {
+          showMessage("⚠️ กรุณากรอกข้อมูล", "error");
+          return;
+        }
+
+        linkedList.unshift(data);
+        showMessage(`✅ unshift("${data}") สำเร็จ`, "success");
+        showOutput(`Unshifted "${data}" to front of list`);
+        document.getElementById("dataInput").value = "";
+        updateDisplay();
+      }
+
+      function shiftData() {
+        const data = linkedList.shift();
+        if (data === null) {
+          showMessage("❌ LinkedList ว่างเปล่า ไม่สามารถ shift ได้", "error");
+          showOutput("Error: List is empty");
+        } else {
+          showMessage(`✅ shift() คืนค่า "${data}"`, "success");
+          showOutput(`shift() returned: "${data}"`);
+        }
+        updateDisplay();
+      }
+
+      function getData() {
+        const index = parseInt(document.getElementById("indexInput").value);
+
+        if (isNaN(index) || index < 0) {
+          showMessage("⚠️ กรุณากรอก index ที่ถูกต้อง", "error");
+          return;
+        }
+
+        const data = linkedList.get(index);
+        if (data === null) {
+          showMessage(`❌ ไม่พบข้อมูลที่ index ${index}`, "error");
+          showOutput(`Error: Index ${index} out of bounds`);
+        } else {
+          showMessage(`✅ get(${index}) คืนค่า "${data}"`, "info");
+          showOutput(`get(${index}) returned: "${data}"`);
+        }
+      }
+
+      function setData() {
+        const index = parseInt(document.getElementById("indexInput").value);
+        const newData = document.getElementById("newDataInput").value.trim();
+
+        if (isNaN(index) || index < 0 || index >= linkedList.size) {
+          showMessage(
+            "⚠️ กรุณากรอก index ที่ถูกต้อง (0 ถึง " +
+              (linkedList.size - 1) +
+              ")",
+            "error",
+          );
+          return;
+        }
+
+        if (!newData) {
+          showMessage("⚠️ กรุณากรอกข้อมูลใหม่", "error");
+          return;
+        }
+
+        const success = linkedList.set(index, newData);
+        if (success) {
+          showMessage(`✅ set(${index}, "${newData}") สำเร็จ`, "success");
+          showOutput(`Set index ${index} to "${newData}"`);
+          document.getElementById("newDataInput").value = "";
+        } else {
+          showMessage(`❌ ไม่สามารถ set ที่ index ${index} ได้`, "error");
+          showOutput(`Error: Index ${index} out of bounds`);
+        }
+        updateDisplay();
+      }
+
+      function insertData() {
+        const index = parseInt(document.getElementById("indexInput").value);
+        const data = document.getElementById("dataInput").value.trim();
+
+        if (isNaN(index) || index < 0) {
+          showMessage("⚠️ กรุณากรอก index ที่ถูกต้อง", "error");
+          return;
+        }
+
+        if (!data) {
+          showMessage("⚠️ กรุณากรอกข้อมูล", "error");
+          return;
+        }
+
+        const success = linkedList.insert(index, data);
+        if (success) {
+          showMessage(`✅ insert(${index}, "${data}") สำเร็จ`, "success");
+          showOutput(`Inserted "${data}" at index ${index}`);
+          document.getElementById("dataInput").value = "";
+        } else {
+          showMessage(`❌ ไม่สามารถ insert ที่ index ${index} ได้`, "error");
+          showOutput(`Error: Index ${index} out of bounds`);
+        }
+        updateDisplay();
+      }
+
+      function removeData() {
+        const index = parseInt(document.getElementById("indexInput").value);
+
+        if (isNaN(index) || index < 0) {
+          showMessage("⚠️ กรุณากรอก index ที่ถูกต้อง", "error");
+          return;
+        }
+
+        const data = linkedList.remove(index);
+        if (data === null) {
+          showMessage(`❌ ไม่สามารถ remove ที่ index ${index} ได้`, "error");
+          showOutput(`Error: Index ${index} out of bounds`);
+        } else {
+          showMessage(`✅ remove(${index}) คืนค่า "${data}"`, "success");
+          showOutput(`remove(${index}) returned: "${data}"`);
+        }
+        updateDisplay();
+      }
+
+      // เริ่มต้นการแสดงผล
+      updateDisplay();
+      updateListDropdown();
+    </script>
+  </body>
+</html>

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="th">
+  <head>
+    <meta charset="UTF-8" />
+    <title>คำนวณค่าใช้จ่ายในหอพัก</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <h2>โปรแกรมคำนวณค่าใช้จ่ายในหอพัก</h2>
+
+    <label
+      >ค่าน้ำ (ยูนิต):
+      <input type="number" id="water" min="0" value="0" />
+    </label>
+      <br>
+    <label
+      >ค่าไฟ (ยูนิต):
+      <input type="number" id="electricity" min="0" value="0" />
+    </label>
+      <br>
+    <label
+      >ค่าโทรศัพท์ (นาที):
+      <input type="number" id="phone" min="0" value="0" />
+    </label>
+      <br>
+    <button onclick="calculate()">คำนวณ</button>
+
+    <div id="result"></div>
+
+    <script src="script.js"></script>
+  </body>
+</html>

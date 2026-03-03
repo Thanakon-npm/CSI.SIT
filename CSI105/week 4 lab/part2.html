@@ -1,0 +1,50 @@
+<script>
+  console.log("Create Node");
+  class Node {
+    constructor(value = "x", next = null) {
+      this.value = value;
+      this.next = next;
+    }
+    setValue(value) {
+      this.value = value;
+    }
+    getCreateNode() {
+      console.log("vales : ", this.value, "|", this.next);
+      console.log("Cerate Node Complete");
+    }
+  }
+
+  class LinkedList {
+    constructor() {
+      this.head = null;
+    }
+    unship(value) {
+      let newNode = new Node(value);
+      if (this.head == null) this.head = newNode;
+      else {
+        newNode.next = this.head;
+        this.head = newNode;
+      }
+    }
+    getList() {
+      if (this.head == null) return "List is Empty";
+      else {
+        let result = "[";
+        let tmp = this.head;
+        result += tmp.value; "] - ->"
+        while (tmp != null) {
+          tmp = tmp.next;
+          result += " " + tmp.value;
+        }
+      }
+      return result;
+    }
+  }
+  let list = new LinkedList();
+  list.unship(10);
+  list.unship(20);
+  list.unship(30);
+  console.log("Create LinkedList");
+  console.log(list.getList());
+  console.log(list);
+</script>

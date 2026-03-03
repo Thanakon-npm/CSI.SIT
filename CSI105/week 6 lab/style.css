@@ -1,0 +1,304 @@
+:root {
+    --primary-bg: #fafafa;
+    --card-bg: #ffffff;
+    --accent-color: #333333;
+    /* Dark grey/Black for high contrast minimalist look */
+    --accent-hover: #000000;
+    --text-color: #333333;
+    --secondary-text: #888888;
+    --border-color: #e0e0e0;
+    --stack-item-bg: #ffffff;
+    --queue-item-bg: #ffffff;
+    --item-border: #333333;
+    --font-main: 'Outfit', sans-serif;
+}
+
+body {
+    font-family: var(--font-main);
+    background-color: var(--primary-bg);
+    color: var(--text-color);
+    margin: 0;
+    padding: 40px;
+    display: flex;
+    justify-content: center;
+    min-height: 100vh;
+}
+
+.container {
+    width: 100%;
+    max-width: 1000px;
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+}
+
+header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+header h1 {
+    font-weight: 300;
+    font-size: 2rem;
+    letter-spacing: -0.5px;
+    margin-bottom: 5px;
+    color: var(--text-color);
+}
+
+header p {
+    color: var(--secondary-text);
+    font-size: 0.9rem;
+    font-weight: 300;
+}
+
+.icon {
+    display: none;
+    /* Minimalist: remove icons if they add clutter */
+}
+
+.input-section {
+    display: flex;
+    justify-content: center;
+}
+
+.input-wrapper {
+    display: flex;
+    gap: 0;
+    /* Connected input and button */
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    overflow: hidden;
+    background: var(--card-bg);
+    width: 100%;
+    max-width: 500px;
+    transition: border-color 0.2s;
+}
+
+.input-wrapper:focus-within {
+    border-color: var(--accent-color);
+}
+
+.premium-input {
+    flex: 1;
+    border: none;
+    padding: 15px 20px;
+    font-size: 1rem;
+    outline: none;
+    font-family: inherit;
+    color: var(--text-color);
+}
+
+.premium-btn {
+    background: var(--card-bg);
+    /* Match input */
+    color: var(--text-color);
+    border: none;
+    border-left: 1px solid var(--border-color);
+    padding: 0 25px;
+    font-weight: 500;
+    cursor: pointer;
+    font-family: inherit;
+    transition: background 0.2s, color 0.2s;
+}
+
+.premium-btn:hover {
+    background: var(--accent-color);
+    color: white;
+}
+
+.structures-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    /* More whitespace */
+}
+
+@media (max-width: 768px) {
+    .structures-container {
+        grid-template-columns: 1fr;
+        gap: 40px;
+    }
+}
+
+.structure-card {
+    /* No background card, just clean layout */
+    background: transparent;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.card-header {
+    text-align: left;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 10px;
+}
+
+.card-header h2 {
+    font-size: 1.2rem;
+    font-weight: 500;
+    margin: 0;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.subtitle {
+    font-size: 0.8rem;
+    color: var(--secondary-text);
+    margin-top: 5px;
+}
+
+.controls {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+}
+
+.control-btn {
+    padding: 8px 0;
+    border: 1px solid var(--border-color);
+    background: transparent;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    color: var(--secondary-text);
+    transition: all 0.2s;
+}
+
+.control-btn:hover {
+    border-color: var(--accent-color);
+    color: var(--accent-color);
+}
+
+.control-btn:active {
+    background: var(--accent-color);
+    color: white;
+}
+
+.result-display {
+    font-size: 0.9rem;
+    color: var(--secondary-text);
+    min-height: 1.2em;
+    /* Prevent layout shift */
+}
+
+.result-display .label {
+    font-weight: 500;
+    display: none;
+    /* Hide 'Result:' label for minimalism */
+}
+
+.value {
+    color: var(--text-color);
+}
+
+.visual-area {
+    min-height: 300px;
+    display: flex;
+    align-items: center;
+    /* Center everything */
+    justify-content: center;
+    position: relative;
+}
+
+/* Stack Specifics */
+.stack-card .visual-area {
+    align-items: flex-end;
+    /* Bottom alignment for stack */
+}
+
+.stack-container {
+    display: flex;
+    flex-direction: column-reverse;
+    width: 150px;
+    gap: 10px;
+    padding-bottom: 1px;
+    /* Open stack visual - just a line at bottom maybe? or U shape */
+    border-bottom: 2px solid var(--accent-color);
+    border-left: 2px solid var(--border-color);
+    border-right: 2px solid var(--border-color);
+    border-radius: 0 0 6px 6px;
+    min-height: 200px;
+    /* Fixed height for visual consistency */
+    padding: 10px;
+}
+
+.stack-item {
+    background: var(--stack-item-bg);
+    padding: 12px;
+    text-align: center;
+    border: 1px solid var(--item-border);
+    border-radius: 4px;
+    font-size: 0.9rem;
+    animation: fadeIn 0.3s ease;
+}
+
+/* Queue Specifics */
+.queue-container-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    width: 100%;
+}
+
+.queue-label {
+    font-size: 0.7rem;
+    color: var(--secondary-text);
+    letter-spacing: 1px;
+    writing-mode: unset;
+    /* Reset vertical text */
+    text-orientation: unset;
+}
+
+.queue-container {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    width: 100%;
+    min-height: 60px;
+    align-items: center;
+    padding: 5px;
+    border-top: 1px solid var(--border-color);
+    /* Visual track lines */
+    border-bottom: 1px solid var(--border-color);
+    overflow-x: auto;
+}
+
+.queue-item {
+    background: var(--queue-item-bg);
+    padding: 10px 20px;
+    text-align: center;
+    border: 1px solid var(--item-border);
+    border-radius: 4px;
+    min-width: 60px;
+    font-size: 0.9rem;
+    flex-shrink: 0;
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes popOut {
+    to {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+}
+
+@keyframes dequeueOut {
+    to {
+        opacity: 0;
+        transform: translateX(-20px);
+    }
+}

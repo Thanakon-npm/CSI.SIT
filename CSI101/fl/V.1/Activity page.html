@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="th">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>รายละเอียดกิจกรรม SPU</title>
+    <link rel="stylesheet" href="Activity page.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+    <style>
+      /* The Modal (background) */
+      .modal {
+        display: none; /* Hidden by default */
+        position: fixed; /* Stay in place */
+        z-index: 1000; /* Sit on top */
+        left: 0;
+        top: 0;
+        width: 100%; /* Full width */
+        height: 100%; /* Full height */
+        overflow: auto; /* Enable scroll if needed */
+        background-color: rgba(0, 0, 0, 0.7); /* Darker overlay */
+        font-family: sans-serif;
+      }
+
+      /* Modal Content/Box */
+      .modal-content {
+        background-color: #2d2d2d; /* Dark background from screenshot */
+        color: #f1f1f1; /* Light text */
+        margin: 15% auto; /* 15% from the top and centered */
+        padding: 25px 30px;
+        border: 1px solid #555;
+        width: 90%;
+        max-width: 550px;
+        border-radius: 8px;
+        text-align: left;
+        position: relative;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+      }
+      .modal-content p {
+        margin-bottom: 12px;
+        line-height: 1.6;
+      }
+      .modal-content a {
+        color: #61dafb; /* Light blue for links */
+        text-decoration: underline;
+        word-break: break-all; /* Break long links */
+      }
+
+      /* The Close Button */
+      .close-button {
+        color: #aaa;
+        position: absolute;
+        top: 10px;
+        right: 20px;
+        font-size: 28px;
+        font-weight: bold;
+        cursor: pointer;
+      }
+      .close-button:hover,
+      .close-button:focus {
+        color: #fff;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="detail-container">
+      <div class="poster-summary">
+        <div class="poster-card">
+          <img
+            src="ps1.jpg"
+            alt="Activity Poster"
+            class="detail-poster-image"
+          />
+          <div class="poster-overlay">
+            <p class="spu-tag">SPU</p>
+            <h2 class="poster-title">
+              Artificial Intelligence VS Authentic Intelligence
+            </h2>
+            <p class="speaker-info">Speaker</p>
+            <p class="speaker-name">ดร.วิทย์ สิทธิเวคิน</p>
+            <p class="poster-date">16 ตุลาคม 2568 | เวลา 13:00 - 14:40 น.</p>
+          </div>
+        </div>
+
+        <div class="activity-type">กิจกรรม Tech Talk</div>
+        <p class="activity-description">
+          เป็นกิจกรรมบรรยายการพูดคุยเกี่ยวกับการ<br />
+          พัฒนาของเทคโนโลยีของคนในปัจจุบัน
+        </p>
+      </div>
+
+      <div class="detail-content">
+        <h1 class="main-title">รายละเอียดของกิจกรรม</h1>
+
+        <div class="detail-grid">
+          <div class="detail-group">
+            <p class="detail-label">ชั่วโมงที่จะได้รับจากกิจกรรม</p>
+            <div id="activity-hours" class="detail-value-box">2 ชั่วโมง</div>
+          </div>
+
+          <div class="detail-group">
+            <p class="detail-label">สถานที่จัดกิจกรรม</p>
+            <div class="detail-value-box">มหาวิทยาลัยศรีปทุม</div>
+          </div>
+
+          <div class="detail-group detail-full-width">
+            <p class="detail-label">วันที่และเวลาต้องเข้าร่วมกิจกรรม</p>
+            <p class="detail-value-large">16 ตุลาคม 2568</p>
+            <p class="detail-value-large">เวลา 13:00 - 14:40 น.</p>
+          </div>
+
+          <div class="detail-group">
+            <button class="action-button">รายละเอียดเพิ่มเติม</button>
+          </div>
+
+          <div class="detail-group">
+            <button id="join-button" class="action-button">
+              เข้าร่วมกิจกรรม
+            </button>
+          </div>
+        </div>
+
+        <div id="registration-form" class="form-section" style="display: none">
+          <p class="form-title">Form สำหรับลงทะเบียนเข้าร่วมกิจกรรม</p>
+          <div class="form-link-box">
+            link :
+            <a href="#" target="_blank" class="register-link"
+              >https://docs.google.com/forms/d/e/1FAIpQLSfAaZ_RimApFrkR-qt7h1BmxY-sEdTK7JZld0Cri-b-WUiSSQ/viewform?usp=header</a
+            >
+          </div>
+        </div>
+
+        <p class="closing-note">โปรดแต่งกายสุภาพ</p>
+      </div>
+    </div>
+
+    <!-- The Custom Modal -->
+    <div id="custom-modal" class="modal">
+      <div class="modal-content">
+        <span class="close-button">&times;</span>
+        <div id="modal-message-container"></div>
+      </div>
+    </div>
+
+    <script src="Activity page.js"></script>
+  </body>
+</html>

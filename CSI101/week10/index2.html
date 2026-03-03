@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="th">
+  <head>
+    <meta charset="UTF-8" />
+    <title>สูตรคูณแม่ 2 ถึง แม่ 12</title>
+  </head>
+  <body>
+    <h2>แสดงสูตรคูณแม่ 2 ถึง แม่ 12</h2>
+
+    <button onclick="showWhile()">แสดงด้วย while</button>
+    <button onclick="showDoWhile()">แสดงด้วย do-while</button>
+
+    <pre id="output"></pre>
+
+    <script>
+      function showWhile() {
+        let output = "";
+        let n = 2;
+
+        while (n <= 12) {
+          output += `แม่ ${n}\n`;
+          let i = 1;
+          while (i <= 12) {
+            output += `${i} x ${n} = ${i * n}\n`;
+            i++;
+          }
+          output += "\n";
+          n++;
+        }
+
+        document.getElementById("output").textContent = output;
+      }
+
+      function showDoWhile() {
+        let output = "";
+        let n = 2;
+
+        do {
+          output += `แม่ ${n}\n`;
+          let i = 1;
+          do {
+            output += `${i} x ${n} = ${i * n}\n`;
+            i++;
+          } while (i <= 12);
+          output += "\n";
+          n++;
+        } while (n <= 12);
+
+        document.getElementById("output").textContent = output;
+      }
+    </script>
+  </body>
+</html>

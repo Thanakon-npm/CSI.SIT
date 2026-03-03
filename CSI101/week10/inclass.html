@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title></title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="css/style.css" rel="stylesheet">
+    <script>
+      let i = 0;
+      while (i <= 10) {
+        console.log("รอบที่ " + i);
+        i++; //เพิ่มค่าเพื่อให้เงื่อนไขเปลี่ยน
+      }
+      console.log("จบการทำงาน");
+
+      let n= 1 ;
+      console.log("Series for 2n + 1 (1 <= n <= 10)");
+      while (n <= 10) {
+        console.log ("2(%d) + 1 =%d" , n , 2 * n+1);
+        n++;
+      }
+      console.log("series loop End");
+
+      i = 50;
+      let speed = 5;
+      while (i >= 0) {
+        console.log("countdown: " + i );
+        i -= speed; //ลดค่าความเร็ว
+      }
+
+      i = 1;
+      do{
+        console.log("รอบที่ " + i);
+        i++;
+      }while(i <= 10);
+      console.log("Do Count Loop ended");
+
+      let rand;
+      let Count = 0;
+      do {
+        rand = Math.floor(Math.random() * 6) + 1; //สุ่มเลข 1-6
+        console.log("Random number: " + rand);
+        Count++;
+      } while (rand !== 5);
+      console.log("It takes %d random to get 5", Count);
+    </script>
+  </head>
+  <body>
+  
+  </body>
+</html>

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Expression infix To Postfix Running</title>
+</head>
+<body>
+  <script>
+
+  console.log("Expression infixToPostfix Running...");
+  let expression = "A+(B*C)";
+  function Precedence(Op = Operator) {
+    if (Op == "+" || Op == "-") return 1;
+    else if (Op == "*" || Op == "/") return 2;
+    return 0;
+  }
+  function infixToPostfix(exp) {
+    let Stack = []; // let Stack = new LinkedList();
+    let Postfix = [];
+    console.log("Expression:", exp);
+    console.log("Stack:", Stack);
+    console.log("Postfix:", Postfix);
+    for (let index = 0; index < exp.length; index++) {
+      let char = exp.charAt(index);
+      if (char.match(/[A-Za-z0-9]/)) {
+        Postfix.push(char);
+      } else if (char == "(") {
+        Stack.push(char);
+      } else if (char == ")") {
+        while (Stack.length && Stack[Stack.length - 1] !== "(") {
+          Postfix.push(Stack.pop());
+        }
+        Stack.pop();
+      } else {
+        while (Stack.length && Precedence(Stack[Stack.length-1]) >= Precedence(char)) {
+            Postfix.push(Stack.pop());
+        }
+        Stack.push(char);
+      }
+    }
+    while(Stack.length){
+        Postfix.push(Stack.pop());
+    }
+    return Postfix;
+  }
+  infixToPostfix(expression);
+  </script>
+</body>
+</html>

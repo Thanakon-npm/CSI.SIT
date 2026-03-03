@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <p id="oldId">ข้อความนี้มี id = oldId</p>
+  <button onclick="changeId()">เปลี่ยน id </button>
+  <script>
+    function changeId() {
+      let element = document.getElementById("oldId");
+      element.id = "newId";
+      element.innerText = "ตอนนี้ id ของข้อความนี้คือ newId";
+    }
+  </script>
+  <!-- <h2>การทดสอบลำดับความสำคัญของค่าดำเนินการ</h2> -->
+  <!-- <pre id="output"></pre> -->
+  <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="th">
+  <head>
+    <meta charset="UTF-8" />
+    <title>โปรแกรมคำนวณค่าโดยสาร</title>
+  </head>
+  <body>
+    <h2>โปรแกรมคำนวณค่าโดยสาร</h2>
+
+    <label for="transport">เลือกประเภทการเดินทาง:</label>
+    <select id="transport">
+      <option value="">-- กรุณาเลือก --</option>
+      <option value="bus">รถเมล์</option>
+      <option value="train">รถไฟฟ้า</option>
+      <option value="taxi">แท็กซี่</option>
+    </select>
+
+    <button onclick="calculateFare()">คำนวณ</button>
+
+    <p id="result"></p>
+
+    <script>
+      function calculateFare() {
+        const transport = document.getElementById("transport").value;
+        const result = document.getElementById("result");
+        let fare;
+
+        switch (transport) {
+          case "bus":
+            fare = 15;
+            break;
+          case "train":
+            fare = 40;
+            break;
+          case "taxi":
+            fare = 50;
+            break;
+          default:
+            result.textContent = "กรุณาเลือกประเภทการเดินทางก่อน";
+            return;
+        }
+
+        result.textContent = `ค่าโดยสารคือ ${fare} บาท`;
+      }
+    </script>
+  </body>
+</html>

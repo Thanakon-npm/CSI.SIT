@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Homework For Loop</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            margin: 2em;
+        }
+        .problem {
+            border: 1px solid #ccc;
+            padding: 1em;
+            margin-bottom: 1em;
+            border-radius: 8px;
+        }
+        input {
+            margin-right: 0.5em;
+        }
+        p {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Homework For Loop</h1>
+
+    <!-- Problem 1 -->
+    <div class="problem">
+        <h2>1. รับอาร์เรย์ตัวเลข แล้วคืนค่าเฉพาะเลขคู่ (even)</h2>
+        <label for="p1-input">ใส่ตัวเลข คั่นด้วยลูกน้ำ (เช่น 1,2,3,4,5):</label>
+        <input type="text" id="p1-input" value="1,2,3,4,5">
+        <button onclick="solveProblem1()">แสดงผล</button>
+        <p id="p1-result"></p>
+    </div>
+
+    <!-- Problem 2 -->
+    <div class="problem">
+        <h2>2. หาผลรวมของตัวเลข 1 ถึง N</h2>
+        <label for="p2-input">ใส่เลข N:</label>
+        <input type="number" id="p2-input" value="5">
+        <button onclick="solveProblem2()">แสดงผล</button>
+        <p id="p2-result"></p>
+    </div>
+
+    <!-- Problem 3 -->
+    <div class="problem">
+        <h2>3. เขียนฟังก์ชัน factorial(n) โดยใช้ for loop</h2>
+        <label for="p3-input">ใส่เลข n:</label>
+        <input type="number" id="p3-input" value="5">
+        <button onclick="solveProblem3()">แสดงผล</button>
+        <p id="p3-result"></p>
+    </div>
+
+    <script>
+        // --- Logic for Problem 1 ---
+        function getEvenNumbers(numbers) {
+            const evenNumbers = [];
+            for (let i = 0; i < numbers.length; i++) {
+                if (numbers[i] % 2 === 0) {
+                    evenNumbers.push(numbers[i]);
+                }
+            }
+            return evenNumbers;
+        }
+
+        function solveProblem1() {
+            const inputStr = document.getElementById('p1-input').value;
+            // แปลง string "1,2,3" เป็น array [1, 2, 3]
+            const numbers = inputStr.split(',').map(Number);
+            const result = getEvenNumbers(numbers);
+            document.getElementById('p1-result').innerText = 'ผลลัพธ์: [' + result.join(', ') + ']';
+        }
+
+        // --- Logic for Problem 2 ---
+        function sumUpToN(n) {
+            let sum = 0;
+            for (let i = 1; i <= n; i++) {
+                sum += i;
+            }
+            return sum;
+        }
+
+        function solveProblem2() {
+            const n = parseInt(document.getElementById('p2-input').value, 10);
+            const result = sumUpToN(n);
+            document.getElementById('p2-result').innerText = 'ผลลัพธ์: ' + result;
+        }
+
+        // --- Logic for Problem 3 ---
+        function factorial(n) {
+            if (n < 0) return "ไม่สามารถหาค่าได้";
+            if (n === 0) return 1;
+            
+            let result = 1;
+            for (let i = 1; i <= n; i++) {
+                result *= i;
+            }
+            return result;
+        }
+
+        function solveProblem3() {
+            const n = parseInt(document.getElementById('p3-input').value, 10);
+            const result = factorial(n);
+            document.getElementById('p3-result').innerText = 'ผลลัพธ์: ' + result;
+        }
+    </script>
+
+</body>
+</html>

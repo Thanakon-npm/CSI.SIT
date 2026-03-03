@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="th">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>การบ้าน JavaScript Array</title>
+    <style>
+      body {
+        font-family: "Sarabun", sans-serif;
+        line-height: 1.6;
+        margin: 20px;
+        background-color: #f4f4f4;
+      }
+      .container {
+        max-width: 800px;
+        margin: 0 auto;
+        background: white;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      }
+      h2 {
+        color: #d35400;
+        border-bottom: 2px solid #eee;
+        padding-bottom: 10px;
+      }
+      .exercise {
+        margin-bottom: 30px;
+        border: 1px solid #ddd;
+        padding: 15px;
+        border-radius: 5px;
+      }
+      .result-box {
+        background-color: #eef;
+        padding: 10px;
+        border-radius: 5px;
+        margin-bottom: 20px;
+        border-left: 5px solid #007bff;
+      }
+      code {
+        background-color: #eee;
+        padding: 2px 5px;
+        border-radius: 3px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>การบ้าน JavaScript </h1>
+
+      <div class="exercise">
+        <h2>ข้อที่ 1: การเข้าถึงและแก้ไขข้อมูลในอาร์เรย์</h2>
+        <p>
+          อาร์เรย์เริ่มต้น:
+          <code>["apple", "banana", "mango", "orange", "grape"]</code>
+        </p>
+        <label for="fruit_to_add">ผลไม้ที่จะเพิ่มท้ายอาร์เรย์:</label>
+        <input type="text" id="fruit_to_add" value="durian" />
+        <p><em>หลังจากเพิ่มผลไม้แล้ว จะทำการลบผลไม้ตัวแรกออก (shift)</em></p>
+        <button onclick="runExercise1()">ประมวลผลข้อ 1</button>
+        <div id="output1"></div>
+      </div>
+
+      <div class="exercise">
+        <h2>ข้อที่ 2: การวนลูปและหาค่ามากที่สุด</h2>
+        <label for="numbers_for_max"
+          >ชุดตัวเลข (คั่นด้วยเครื่องหมายจุลภาค ,):</label
+        >
+        <input
+          type="text"
+          id="numbers_for_max"
+          value="12, 45, 7, 23, 89, 34"
+          style="width: 300px"
+        />
+        <br /><br />
+        <button onclick="runExercise2()">ประมวลผลข้อ 2</button>
+        <div id="output2"></div>
+      </div>
+
+      <div class="exercise">
+        <h2>ข้อที่ 3: การใช้เมธอดของอาร์เรย์ (Filter & Map)</h2>
+        <label for="scores_input"
+          >ชุดคะแนน (คั่นด้วยเครื่องหมายจุลภาค ,):</label
+        >
+        <input
+          type="text"
+          id="scores_input"
+          value="55, 72, 90, 45, 68, 81"
+          style="width: 300px"
+        />
+        <br /><br />
+        <button onclick="runExercise3()">ประมวลผลข้อ 3</button>
+        <div id="output3"></div>
+      </div>
+
+      <div class="exercise">
+        <h2>ข้อที่ 4: การจัดเรียงและรวมค่า (Sort & Reduce)</h2>
+        <label for="numbers_for_sort"
+          >ชุดตัวเลข (คั่นด้วยเครื่องหมายจุลภาค ,):</label
+        >
+        <input
+          type="text"
+          id="numbers_for_sort"
+          value="5, 2, 9, 1, 7"
+          style="width: 300px"
+        />
+        <br /><br />
+        <button onclick="runExercise4()">ประมวลผลข้อ 4</button>
+        <div id="output4"></div>
+      </div>
+    </div>
+
+    <script>
+      // ฟังก์ชันสำหรับช่วยแสดงผลบนหน้าเว็บ
+      function printResult(elementId, content) {
+        const outputDiv = document.getElementById(elementId);
+        outputDiv.innerHTML = `<div class="result-box">${content}</div>`;
+      }
+
+      // ==========================================
+      // ข้อที่ 1: การเข้าถึงและแก้ไขข้อมูลในอาร์เรย์
+      // ==========================================
+      function runExercise1() {
+        let fruits = ["apple", "banana", "mango", "orange", "grape"];
+
+        // 1.1 รับค่าจาก input และเพิ่มเข้าไปท้ายอาร์เรย์
+        const fruitToAdd = document.getElementById("fruit_to_add").value;
+        if (fruitToAdd) {
+          fruits.push(fruitToAdd);
+        }
+
+        // 1.2 ลบผลไม้ตัวแรกออกจากอาร์เรย์ (ใช้ shift)
+        let removedFruit = fruits.shift(); // ลบ apple ออก
+
+        // 1.3 แสดงผลอาร์เรย์ที่เหลือทั้งหมดทางหน้าจอ
+        printResult(
+          "output1",
+          `
+            <b>ผลไม้ที่ถูกลบไป:</b> ${removedFruit} <br>
+            <b>อาร์เรย์ปัจจุบัน:</b> [${fruits.join(", ")}]
+        `
+        );
+      }
+
+      // ==========================================
+      // ข้อที่ 2: การวนลูปและหาค่ามากที่สุด
+      // ==========================================
+      function runExercise2() {
+        const numbersStr = document.getElementById("numbers_for_max").value;
+        let numbers1 = numbersStr
+          .split(",")
+          .map((item) => parseInt(item.trim()))
+          .filter((item) => !isNaN(item));
+
+        if (numbers1.length === 0) {
+          printResult("output2", `<b>กรุณาใส่ตัวเลขให้ถูกต้อง</b>`);
+          return;
+        }
+
+        let maxVal = numbers1[0];
+
+        // 2.1 ใช้ forEach เพื่อหาค่ามากที่สุด
+        numbers1.forEach((num) => {
+          if (num > maxVal) {
+            maxVal = num;
+          }
+        });
+
+        // 2.2 แสดงผลค่ามากที่สุดออกมา
+        printResult(
+          "output2",
+          `
+            <b>ชุดตัวเลข:</b> [${numbers1.join(", ")}] <br>
+            <b>ค่าที่มากที่สุดคือ:</b> ${maxVal}
+        `
+        );
+      }
+
+      // ==========================================
+      // ข้อที่ 3: การใช้เมธอดของอาร์เรย์ (Filter & Map)
+      // ==========================================
+      function runExercise3() {
+        const scoresStr = document.getElementById("scores_input").value;
+        let scores = scoresStr
+          .split(",")
+          .map((item) => parseInt(item.trim()))
+          .filter((item) => !isNaN(item));
+
+        if (scores.length === 0) {
+          printResult("output3", `<b>กรุณาใส่คะแนนให้ถูกต้อง</b>`);
+          return;
+        }
+
+        // 3.1 ใช้ .filter() เพื่อเลือกคะแนนที่มากกว่า 60
+        let highScores = scores.filter((score) => score > 60);
+
+        // 3.2 ใช้ .map() เพื่อเปลี่ยนคะแนนที่เหลือให้เป็นข้อความ "ผ่าน"
+        let resultText = highScores.map((score) => "ผ่าน");
+
+        // 3.3 แสดงผลลัพธ์ออกมา
+        printResult(
+          "output3",
+          `
+            <b>คะแนนทั้งหมด:</b> [${scores.join(", ")}] <br>
+            <b>คะแนนที่มากกว่า 60 (Filter):</b> [${highScores.join(", ")}] <br>
+            <b>ผลลัพธ์ข้อความ (Map):</b> [${resultText.join(", ")}]
+        `
+        );
+      }
+
+      // ==========================================
+      // ข้อที่ 4: การจัดเรียงและรวมค่า (Sort & Reduce)
+      // ==========================================
+      function runExercise4() {
+        const numbersStr = document.getElementById("numbers_for_sort").value;
+        let numbers2 = numbersStr
+          .split(",")
+          .map((item) => parseInt(item.trim()))
+          .filter((item) => !isNaN(item));
+
+        if (numbers2.length === 0) {
+          printResult("output4", `<b>กรุณาใส่ตัวเลขให้ถูกต้อง</b>`);
+          return;
+        }
+
+        // 4.1 ใช้ .sort() เพื่อเรียงตัวเลขจากน้อยไปมาก
+        numbers2.sort((a, b) => a - b);
+
+        // 4.2 ใช้ .reduce() เพื่อหาผลรวมของตัวเลขทั้งหมด
+        let sum = numbers2.reduce((total, current) => total + current, 0);
+
+        // แสดงผลทั้งอาร์เรย์ที่เรียงแล้ว และผลรวม
+        printResult(
+          "output4",
+          `
+            <b>เรียงจากน้อยไปมาก:</b> [${numbers2.join(", ")}] <br>
+            <b>ผลรวมทั้งหมด:</b> ${sum}
+        `
+        );
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <title>คำนวณผลบวกจำนวนคู่</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        #output { margin-top: 15px; font-size: 1.1em; font-weight: bold; border: 1px solid #007bff; padding: 10px; background-color: #e9f7ff; }
+    </style>
+</head>
+<body>
+
+    <h1>คำนวณผลบวกจำนวนเลขคู่ตามใจคุณต้องการ</h1>
+
+
+    <label for="nInput">ป้อนค่า n (จำนวนคู่ที่ต้องการบวก):</label>
+    <input type="number" id="nInput" min="1" value="4">
+    <button onclick="calculateAndDisplay()">คำนวณผลบวก</button>
+
+    <div id="output"></div>
+
+    <script>
+      /**
+ * ฟังก์ชันสำหรับคำนวณผลบวกของจำนวนคู่ n จำนวนแรก โดยเริ่มจาก 0
+ * @param {number} n - จำนวนของพจน์ (จำนวนคู่) ที่ต้องการบวก (เช่น n=4 คือ 0, 2, 4, 6)
+ * @returns {number} - ผลรวมของจำนวนคู่ n จำนวนแรก
+ */
+function sumOfFirstNEvenNumbers(n) {
+    // 1. ตรวจสอบเงื่อนไขพื้นฐาน (n ต้องเป็นจำนวนเต็มบวก)
+    if (typeof n !== 'number' || n <= 0 || !Number.isInteger(n)) {
+        console.error("ค่า n ต้องเป็นจำนวนเต็มบวกที่มากกว่า 0");
+        return 0; // คืนค่า 0 หากอินพุตไม่ถูกต้อง
+    }
+
+    let sum = 0;
+    let count = 0; // ตัวนับจำนวนพจน์ (ต้องวนซ้ำ n ครั้ง)
+    let currentEvenNumber = 0; // จำนวนคู่ปัจจุบัน เริ่มจาก 0
+
+    // 2. ใช้ while loop เพื่อวนซ้ำ n ครั้ง
+    while (count < n) {
+        // 3. บวกจำนวนคู่ปัจจุบันเข้ากับผลรวม
+        sum += currentEvenNumber;
+
+        // 4. เตรียมสำหรับพจน์ถัดไป
+        currentEvenNumber += 2; // จำนวนคู่ถัดไป (เพิ่มทีละ 2)
+        count++; // นับจำนวนพจน์ที่บวกไปแล้ว
+    }
+
+    // 5. ส่งคืนผลลัพธ์
+    return sum;
+}
+
+
+/**
+ * ฟังก์ชันหลักที่เชื่อมต่อกับ HTML เพื่อรับค่าและแสดงผล
+ */
+function calculateAndDisplay() {
+    const nInput = document.getElementById('nInput');
+    const n = parseInt(nInput.value);
+    const outputElement = document.getElementById('output');
+
+    // ตรวจสอบความถูกต้องของข้อมูลก่อนเรียกใช้ฟังก์ชัน
+    if (isNaN(n) || n <= 0 || !Number.isInteger(n)) {
+        outputElement.innerHTML = `❌ กรุณาป้อนค่า $n$ ที่ถูกต้อง (จำนวนเต็มบวก)`;
+        return;
+    }
+
+    // 1. เรียกใช้ฟังก์ชันคำนวณ
+    const result = sumOfFirstNEvenNumbers(n);
+
+    // 2. สร้างข้อความแสดงกระบวนการคำนวณเพื่อความชัดเจน
+    let calculationString = "การคำนวณ: ";
+    for (let i = 0; i < n; i++) {
+        calculationString += (2 * i);
+        if (i < n - 1) {
+            calculationString += " + ";
+        }
+    }
+    
+    // 3. แสดงผลลัพธ์
+    outputElement.innerHTML = 
+        `ค่า n ที่ป้อน: **${n}**<br>` +
+        `${calculationString} = **${result}**`;
+}
+    </script>
+</body>
+</html>

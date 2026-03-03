@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <h1>EX1</h1>
+    <br />
+    <p>bugget</p>
+    <p>income</p>
+    <input type="income" name="income" id="a" />
+    <p>cost</p>
+    <input type="cost" name="cost" id="b" />
+    <br />
+    <button onclick="calculate(a, b)">Calculate</button>
+    <label id="output">?</label>
+    <hr />
+    <h1>EX2</h1>
+    <br />
+    <p>Array Object/Intregation</p>
+    result:<label id="result2">?</label>
+  </body>
+  <script>
+    function EX2_2() {
+      let member = [
+        { id: "m01", name: "Jon", addr: { province: "Bangkok", zip: "10110" } },
+        { id: "m02", name: "Jane", addr: { province: "Chiangmai", zip: "50110" } },
+        { id: "m03", name: "Jack", addr: { province: "Phuket", zip: "83110" } },
+      ];
+      var result = "Name: " + member[0].name;
+      document.getElementById("result2").innerHTML = result;
+      for(var index=0; index<member.length; index++) {
+        console.log("["+index+"] "+member[index].name,"zip: "+member[index].addr.zip);
+        index++;
+      }
+      //console.log(member);
+      //console.log(member[0]);
+      //console.log(member[0].name, member[0].addr.province);
+    }
+    do{
+        console.log("["+index+"] "+member[index].name,"zip: "+member[index].addr.zip);
+        index++;
+    } while(index<member.length);
+    EX2_2();
+    function EX2_1() {
+      let arr = ["A", "B", "C", "D", "E"];
+      let index = "nmcgchgxhs";
+      arr[index] = "Z";
+      var result = arr[index];
+      document.getElementById("result2").innerHTML = result;
+    }
+    EX2_1();
+    function calculate() {
+      const income = document.getElementById("a").value;
+      const cost = document.getElementById("b").value;
+      console.log(income, cost);
+      if (Number(income) >= Number(cost)) {
+        return (document.getElementById("output").innerHTML =
+          "profit: " + (income - cost));
+      } else {
+        return (document.getElementById("output").innerHTML =
+          "loss: " + (cost - income));
+      }
+    }
+  </script>
+</html>

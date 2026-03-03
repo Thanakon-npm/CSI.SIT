@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <title>แสดงชื่อทีละตัว</title>
+</head>
+<body>
+  <h2>กรอกชื่อของคุณ:</h2>
+  <input type="text" id="username" placeholder="เช่น LISA">
+  <button onclick="showWithWhile()">แสดงด้วย while</button>
+  <button onclick="showWithDoWhile()">แสดงด้วย do-while</button>
+
+  <h3>ผลลัพธ์:</h3>
+  <div id="output"></div>
+
+  <script>
+    function showWithWhile() {
+      const name = document.getElementById("username").value;
+      let i = 0;
+      let result = "<strong>ใช้ while loop:</strong><br>";
+
+      while (i < name.length) {
+        result += name[i] + "!<br>";
+        i++;
+      }
+
+      document.getElementById("output").innerHTML = result;
+    }
+
+    function showWithDoWhile() {
+      const name = document.getElementById("username").value;
+      let result = "<strong>ใช้ do-while loop:</strong><br>";
+
+      if (name.length === 0) {
+        result += "กรุณากรอกชื่อก่อน!";
+      } else {
+        do {
+          result += name[i] + "!<br>";
+          i++;
+        } while (i < name.length);
+      }
+
+      document.getElementById("output").innerHTML = result;
+    }
+  </script>
+</body>
+</html>

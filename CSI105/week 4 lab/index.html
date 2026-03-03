@@ -1,0 +1,57 @@
+<script>
+  console.log("Create Node");
+  class person {
+    constructor(pid = "p000" , pname = "AAA" , mail = "@mail" ){       
+      this.pid = pid ;
+      this.pname = pname ;
+      if(mail != "@mail.com") this.mail = mail ;
+      else this.mail = this.pname + mail ;
+      this.parrent = null ;
+      this.pointer = null ;
+  }
+  setPointer(data){
+    this.pointer = data ;
+  }
+  setParrent(data){
+    this.parrent = data ;
+  }
+  setMail(mail){
+    this.mail = mail ;
+  }
+  getPerson(){
+    return "Person : " + this.pid + " , " + this.pname + " , " + this.mail ;
+  }
+}
+
+let personA = new person("001" , "Antony");
+let personB = new person("002" , "Bruno");
+let personC = new person("003" , "Chalee");
+let ClassArray = [] ; letClassLinked = "" ;
+console.log("Before : listClass ");
+console.log(ClassArray) ;
+ClassArray[0] = personA ; ClassArray[1] = personB ; ClassArray[2] = personC ;
+personA.setPointer(personB) ;
+personB.setPointer(personC) ;
+ClassLinked = personA ;
+ClassLinked = " " ;
+console.log("After : listClass ");
+console.log(ClassArray) ;
+
+
+
+
+
+
+    // let chalee = new person("111" , "Chalee") ;
+    // let person1 = new person("p001" , "Antony") ;
+    // let person2 = new person("p002" , "Bruno" , "bobby@mail.com") ;
+    // person1.setMail("Antony@spulove.net") ;
+    // person1.setParrent(chalee) ;
+    // person2.setParrent(chalee) ;
+    // console.log(person1.pname+ " have Perrent Name is " + person1.parrent.pname);
+    // console.log(person2);
+    // console.log(person1.getPerson()) ;
+    // console.log(person2.getPerson()) ;
+  
+  console.log("Create LinkedList") ;
+</script>

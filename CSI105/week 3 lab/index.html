@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>week 4 lab</title>
+  </head>
+  <body>
+    <script>
+      let a = 1, b = 0; 
+      result = a && b; // result = a || b;
+      if ( result == 0 ) console.log ("Result = " +result)
+      else console.log ("Result = " +result);
+    // Example 1 : Create logic AND , OR Gate
+    // Example 2 : Create logic AND Gate 
+      // From A [ [1,0,0,1,1,0,0,1] , [0,1,0,1,0,1,0,1] ] 
+      // From B [ [0,0,0,0,0,0,0,0] , [1,1,1,1,1,1,1,1 ] ]
+      // Result C [ [????????] ]
+    
+    a = [[1,0,0,1,1,0,0,1],[0,1,0,1,0,1,0,1]];
+    b = [[0,0,0,0,0,0,0,0],[1,1,1,1,1,1,1,1]];
+   // EX1
+    function andGate( a = [] , b = [] ) {
+      return a && b;
+    }
+    x = 1 , y = 1 ;
+      for (i=0;i<=1;i++)
+        for (j=0;j<=1;j++){
+          //console.log ("i =" +i);
+          for(j=0;j<=1;j++){
+            //console.log ("j =" +j);
+            console.log (i +" and "+j+" = "+ andGate(i,j));
+          }
+        }
+    //console.log ("andGate: " + x +" and "+ y +" = " + andGate(x,y));
+        console.log ("---------------------");
+    // EX2
+    function orGate( a = [] , b = [] ) {
+      return a || b;
+    }
+    x = 0 , y = 1 ;
+      for (i=0;i<=1;i++)
+        for (j=0;j<=1;j++){
+          //console.log ("i =" +i);
+          for(j=0;j<=1;j++){
+            //console.log ("j =" +j);
+            console.log (i +" or "+j+" = "+ orGate(i,j));
+          }
+        }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,29 @@
+<script>
+// สร้างโครงสร้าง Node สำหรับ Linked List
+  class Node {
+    constructor (data){
+      this.data = data; // data เก็บข้อมูล
+      this.next = null; // next เริ่มต้นเป็น null
+    }
+  }
+
+// สร้างโครงสร้าง node
+
+let node1 = new Node(10); // ข้างใน node1 สามารถเก็บข้อมูลอะไรก็ได้
+console.log (node1);
+
+let node2 = new Node(20);
+let node3 = new Node(30);
+node1.next = node2; // เชื่อม node1 กับ node2
+node2.next = node3; // เชื่อม node2 กับ node3
+// console.log (node1.next.next.data)
+
+class LinkedList {
+  constructor (){
+    this.head = null; // เริ่มต้น head เป็น null
+  }
+}
+
+
+
+</script>

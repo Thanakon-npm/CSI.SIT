@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title></title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="css/style.css" rel="stylesheet">
+    <script>
+      //if statement ใช้ตรวจสอบเงื่อนไขเดียว
+      let score = 80;
+      if (score >= 50 ) {
+        console.log("ผ่าน");
+      }
+      //if...else statement ใช้ตรวจสอบเงื่อนไขสองทาง
+      score = 40;
+      if (score >= 50 ) {
+        console.log("ผ่าน");
+      } else {
+        console.log("ไม่ผ่าน");
+      }
+      //if...else if...else statement ใช้ตรวจสอบเงื่อนไขหลายทาง
+      score = 75;
+      if (score >= 80 ) {
+        console.log("เกรด A");
+      } else if (score >= 70) {
+        console.log("เกรด B");
+      } else if (score >= 60) {
+        console.log("เกรด C");
+      } else {
+        console.log("เกรดอื่นๆ");
+      }
+      // switch statement ใช้ตรวจสอบเงื่อนไขหลายทางเช่นกัน
+      let day = 3;
+      switch (day) {
+        case 1: console.log("วันจันทร์"); break;
+        case 2: console.log("วันอังคาร"); break;
+        case 3: console.log("วันพุธ");break;
+        default: console.log("วันอื่นๆ");
+      }
+    </script>
+  </head>
+  <body>
+    <input type="number" id="score" placeholder="กรุณาใส่คะแนน">
+    <button onclick="checkScore()">ตรวจสอบคะแนน</button>
+    <p id="result"></p>
+
+    <script>
+      function checkScore() {
+        let score = document.getElementById("score").value;
+        let grade;
+
+        if (score >= 80 ) grade = "A";
+        else if (score >= 70) grade = "B";
+        else if (score >= 60) grade = "C";
+        else if (score >= 50) grade = "D";
+        else grade = "F";
+
+        document.getElementById("result").innerText = "เกรดของคุณคือ: " + grade; 
+      }
+    </script>
+  </body>
+</html>
