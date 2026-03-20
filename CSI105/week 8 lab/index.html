@@ -3,48 +3,400 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Expression infix To Postfix Running</title>
+  <title>Expression Converter | Premium</title>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #6366f1;
+      --secondary: #ec4899;
+      --bg-glass: rgba(255, 255, 255, 0.85);
+      --border-glass: rgba(255, 255, 255, 0.4);
+      --shadow-glass: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
+      --text-main: #1f2937;
+    }
+
+    body {
+      margin: 0;
+      padding: 20px;
+      font-family: 'Outfit', sans-serif;
+      background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+      background-size: 400% 400%;
+      animation: gradientBG 15s ease infinite;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: var(--text-main);
+    }
+
+    @keyframes gradientBG {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    .app-container {
+      background: var(--bg-glass);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid var(--border-glass);
+      border-radius: 24px;
+      padding: 40px;
+      width: 100%;
+      max-width: 650px;
+      box-shadow: var(--shadow-glass);
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 35px;
+    }
+
+    .header h1 {
+      margin: 0;
+      font-size: 2.5rem;
+      font-weight: 800;
+      background: linear-gradient(to right, var(--primary), var(--secondary));
+      background-clip: text;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      letter-spacing: -0.5px;
+    }
+
+    .header p {
+      margin: 8px 0 0;
+      color: #4b5563;
+      font-size: 1.1rem;
+    }
+
+    .input-group {
+      margin-bottom: 25px;
+      position: relative;
+    }
+
+    .input-group label {
+      display: block;
+      margin-bottom: 10px;
+      font-weight: 600;
+      font-size: 1rem;
+      color: #374151;
+    }
+
+    .input-group input {
+      width: 100%;
+      padding: 16px 20px;
+      border: 2px solid #e5e7eb;
+      border-radius: 14px;
+      background: rgba(255, 255, 255, 0.9);
+      font-size: 1.2rem;
+      font-family: 'Fira Code', monospace;
+      box-sizing: border-box;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: inset 0 2px 4px rgba(0,0,0,0.02);
+      color: var(--primary);
+    }
+
+    .input-group input:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: inset 0 2px 4px rgba(0,0,0,0.02), 0 0 0 4px rgba(99, 102, 241, 0.15);
+    }
+
+    .input-group input::placeholder {
+      color: #9ca3af;
+      font-family: 'Outfit', sans-serif;
+    }
+
+    button.btn-primary {
+      width: 100%;
+      padding: 18px;
+      border: none;
+      border-radius: 14px;
+      background: linear-gradient(to right, var(--primary), var(--secondary));
+      color: white;
+      font-size: 1.2rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 4px 15px rgba(236, 72, 153, 0.3);
+      letter-spacing: 0.5px;
+    }
+
+    button.btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(236, 72, 153, 0.4);
+    }
+
+    button.btn-primary:active {
+      transform: translateY(1px);
+    }
+
+    .results-wrapper {
+      margin-top: 35px;
+      display: none;
+      animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .result-card {
+      background: white;
+      border-radius: 16px;
+      padding: 20px 25px;
+      margin-bottom: 15px;
+      border-left: 6px solid var(--primary);
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+      transition: transform 0.2s;
+    }
+
+    .result-card:hover {
+      transform: translateX(5px);
+    }
+
+    .result-card.prefix {
+      border-left-color: var(--secondary);
+    }
+    
+    .result-card.original {
+      border-left-color: #10b981;
+    }
+
+    .result-card .label {
+      font-size: 0.85rem;
+      color: #6b7280;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      margin-bottom: 8px;
+    }
+
+    .result-card .value {
+      font-size: 1.4rem;
+      font-family: 'Fira Code', monospace;
+      font-weight: 600;
+      color: #111827;
+      word-break: break-all;
+    }
+  </style>
 </head>
 <body>
-  <script>
 
-  console.log("Expression infixToPostfix Running...");
-  let expression = "A+(B*C)";
-  function Precedence(Op = Operator) {
-    if (Op == "+" || Op == "-") return 1;
-    else if (Op == "*" || Op == "/") return 2;
-    return 0;
-  }
-  function infixToPostfix(exp) {
-    let Stack = []; // let Stack = new LinkedList();
-    let Postfix = [];
-    console.log("Expression:", exp);
-    console.log("Stack:", Stack);
-    console.log("Postfix:", Postfix);
-    for (let index = 0; index < exp.length; index++) {
-      let char = exp.charAt(index);
-      if (char.match(/[A-Za-z0-9]/)) {
-        Postfix.push(char);
-      } else if (char == "(") {
-        Stack.push(char);
-      } else if (char == ")") {
-        while (Stack.length && Stack[Stack.length - 1] !== "(") {
-          Postfix.push(Stack.pop());
+  <div class="app-container">
+    <div class="header">
+      <h1>Expression Converter</h1>
+      <p>Infix to Postfix & Prefix Converter</p>
+    </div>
+
+    <div class="input-group">
+      <label for="expression">Enter Infix Expression</label>
+      <input type="text" id="expression" placeholder="e.g. A+B*C or (A+B)*C" autocomplete="off">
+    </div>
+
+    <button class="btn-primary" onclick="processExpression()">Convert Expression ✨</button>
+
+    <div class="results-wrapper" id="results">
+      <div class="result-card original">
+        <div class="label">Original Infix</div>
+        <div class="value" id="outInfix"></div>
+      </div>
+      <div class="result-card">
+        <div class="label">Postfix Result</div>
+        <div class="value" id="outPostfix"></div>
+      </div>
+      <div class="result-card prefix">
+        <div class="label">Prefix Result</div>
+        <div class="value" id="outPrefix"></div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Remove Whitespace
+    function removeWhitespace(expr) {
+      return expr.replace(/\s+/g, '');
+    }
+
+    // Checking if operator/operand
+    function isOperand(char) {
+      return /[a-zA-Z0-9]/.test(char);
+    }
+
+    function isOperator(char) {
+      return ['+', '-', '*', '/', '^', '**'].includes(char);
+    }
+
+    // Function start_getpercedence (Following Flowchart strictly)
+    function getPrecedence(operator) {
+      if (operator === '^' || operator === '**') return 3;
+      if (operator === '*' || operator === '/') return 2;
+      if (operator === '+' || operator === '-') return 1;
+      return 0;
+    }
+
+    // Function infixtopostfix (Following Flowchart exactly using Array Do-While Loop)
+    function InfixtoPostfix(expression) {
+      let stack = [];
+      let postfix = [];
+      let index = 0;
+
+      if (expression.length === 0) return "";
+
+      // Flowchart dictates Do-While Loop (index < exp.length is at bottom)
+      do {
+        let char = expression.charAt(index);
+        
+        // Handle ** operator manually
+        if (char === '*' && expression.charAt(index+1) === '*') {
+             char = '**';
+             index++; 
         }
-        Stack.pop();
-      } else {
-        while (Stack.length && Precedence(Stack[Stack.length-1]) >= Precedence(char)) {
-            Postfix.push(Stack.pop());
+
+        // Flowchart Path: Operand is ? -> True -> postfix.push(char)
+        if (isOperand(char)) {
+          postfix.push(char);
+        } 
+        // Flowchart Path: char = ( -> True -> stack.push(char)
+        else if (char === '(') {
+          stack.push(char);
+        } 
+        // Flowchart Path: char = ) -> True -> postfix.push(stack.pop()) until stack.top() === '('
+        else if (char === ')') {
+          while (stack.length > 0 && stack[stack.length - 1] !== '(') {
+            let popped = stack.pop();
+            postfix.push(popped);
+          }
+          if (stack.length > 0 && stack[stack.length - 1] === '(') {
+            stack.pop(); // discard the '('
+          }
+        } 
+        // Flowchart Path: Operator is ? -> True -> check priority && insert char to postfix -> stack.push()
+        else if (isOperator(char)) {
+          while (stack.length > 0 && getPrecedence(char) <= getPrecedence(stack[stack.length - 1])) {
+            if ((char === '^' || char === '**') && (stack[stack.length - 1] === '^' || stack[stack.length - 1] === '**')) {
+                break;
+            }
+            let popped = stack.pop();
+            postfix.push(popped);
+          }
+          stack.push(char);
         }
-        Stack.push(char);
+        
+        // Flowchart: index++ before condition check
+        index++;
+      } while (index < expression.length);
+
+      while (stack.length > 0) {
+        let popped = stack.pop();
+        postfix.push(popped);
       }
+
+      // User explicitly requested Step-By-Step loop concatenation instead of .join('')
+      let finalPostfix = "";
+      for (let i = 0; i < postfix.length; i++) {
+        finalPostfix += postfix[i];
+      }
+
+      return finalPostfix;
     }
-    while(Stack.length){
-        Postfix.push(Stack.pop());
+
+    // Utility
+    function reverseString(str) {
+      let finalStr = "";
+      for (let i = str.length - 1; i >= 0; i--) {
+        finalStr += str[i];
+      }
+      return finalStr;
     }
-    return Postfix;
-  }
-  infixToPostfix(expression);
+
+    // InfixtoPrefix Implementation
+    function InfixtoPrefix(expression) {
+      // 1. Reverse the expression
+      let reversedExpr = reverseString(expression);
+      let modifiedExpr = "";
+
+      // 2. Swap '(' and ')'
+      for (let i = 0; i < reversedExpr.length; i++) {
+        if (reversedExpr[i] === '(') modifiedExpr += ')';
+        else if (reversedExpr[i] === ')') modifiedExpr += '(';
+        else modifiedExpr += reversedExpr[i];
+      }
+
+      // 3. Get Postfix of the modified expression
+      let stack = [];
+      let prefix = []; // act as temp Postfix
+      let index = 0;
+
+      if (modifiedExpr.length === 0) return "";
+
+      do {
+        let char = modifiedExpr.charAt(index);
+        
+        if (char === '*' && modifiedExpr.charAt(index+1) === '*') {
+             char = '**';
+             index++;
+        }
+
+        if (isOperand(char)) {
+          prefix.push(char);
+        } else if (char === '(') {
+          stack.push(char);
+        } else if (char === ')') {
+          while (stack.length > 0 && stack[stack.length - 1] !== '(') {
+            prefix.push(stack.pop());
+          }
+          if (stack.length > 0 && stack[stack.length - 1] === '(') stack.pop();
+        } else if (isOperator(char)) {
+          // Operator: check priority. Use strictly less < to maintain prefix associativity correctly.
+          while (stack.length > 0 && getPrecedence(char) < getPrecedence(stack[stack.length - 1])) {
+             if ((char === '^' || char === '**') && (stack[stack.length - 1] === '^' || stack[stack.length - 1] === '**')) {
+                prefix.push(stack.pop());
+                continue;
+             }
+             prefix.push(stack.pop());
+          }
+          stack.push(char);
+        }
+        
+        index++;
+      } while (index < modifiedExpr.length);
+
+      while (stack.length > 0) {
+        prefix.push(stack.pop());
+      }
+
+      // User explicitly requested Step-By-Step loop reversal concatenation
+      let finalPrefix = "";
+      for (let i = prefix.length - 1; i >= 0; i--) {
+        finalPrefix += prefix[i];
+      }
+
+      return finalPrefix;
+    }
+
+    // Main Execution
+    function processExpression() {
+      const rawExpression = document.getElementById("expression").value;
+      if (!rawExpression) {
+        alert("Please enter a valid expression.");
+        return;
+      }
+
+      const expression = removeWhitespace(rawExpression);
+
+      const postfixResult = InfixtoPostfix(expression);
+      const prefixResult = InfixtoPrefix(expression);
+
+      document.getElementById("outInfix").innerText = expression;
+      document.getElementById("outPostfix").innerText = postfixResult;
+      document.getElementById("outPrefix").innerText = prefixResult;
+
+      document.getElementById("results").style.display = "block";
+    }
   </script>
 </body>
 </html>
