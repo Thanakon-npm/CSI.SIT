@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Expression Tree Visualizer</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Sarabun:wght@300;400;600&display=swap');
+
+  :root {
+    --bg: #0d1117;
+    --surface: #161b22;
+    --surface2: #1c2333;
+    --border: #30363d;
+    --text: #e6edf3;
+    --text-muted: #7d8590;
+    --cyan: #00d4d4;
+    --cyan-dim: #00d4d430;
+    --green: #3fb950;
+    --node-op-bg: #1c2333;
+    --node-op-border: #00d4d4;
+    --node-var-bg: #1a2030;
+    --node-var-border: #58a6ff55;
+    --edge: #00d4d455;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Sarabun', sans-serif;
+    min-height: 100vh;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 32px 16px;
+  }
+
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 28px;
+    width: 100%;
+    max-width: 960px;
+  }
+
+  h1 {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 1.4rem;
+    font-weight: 700;
+    margin-bottom: 20px;
+  }
+
+  .input-row {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 20px;
+  }
+
+  input[type=text] {
+    flex: 1;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    color: var(--text);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 1rem;
+    padding: 12px 16px;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  input[type=text]:focus { border-color: var(--cyan); }
+
+  .btn-build {
+    background: var(--cyan);
+    color: #0d1117;
+    border: none;
+    border-radius: 8px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.9rem;
+    font-weight: 700;
+    padding: 12px 22px;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: opacity 0.15s, transform 0.1s;
+  }
+  .btn-build:active { transform: scale(0.97); }
+
+  .notation-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 20px;
+  }
+
+  .notation-box {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 14px 16px;
+  }
+
+  .notation-label {
+    font-size: 0.75rem;
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--text-muted);
+    margin-bottom: 6px;
+  }
+
+  .notation-value {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 1.05rem;
+    color: var(--green);
+    word-break: break-all;
+    min-height: 22px;
+  }
+
+  .graph-box {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px;
+  }
+
+  .graph-label {
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    font-family: 'JetBrains Mono', monospace;
+    margin-bottom: 10px;
+  }
+
+  #errMsg {
+    color: #f85149;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.82rem;
+    min-height: 18px;
+    margin-bottom: 8px;
+  }
+
+  canvas {
+    display: block;
+    width: 100%;
+  }
+</style>
+</head>
+<body>
+<div class="card">
+  <h1>Expression Tree Visual Result</h1>
+
+  <div class="input-row">
+    <input type="text" id="exprInput" value="(a + b) * (c – d) / (e + f)" placeholder="e.g. (a + b) * (c - d) / (e + f)">
+    <button class="btn-build" onclick="buildTree()">Build Tree</button>
+  </div>
+
+  <div id="errMsg"></div>
+
+  <div class="notation-grid">
+    <div class="notation-box">
+      <div class="notation-label">Prefix</div>
+      <div class="notation-value" id="prefixOut">—</div>
+    </div>
+    <div class="notation-box">
+      <div class="notation-label">Postfix</div>
+      <div class="notation-value" id="postfixOut">—</div>
+    </div>
+  </div>
+
+  <div class="graph-box">
+    <div class="graph-label">Expression Tree</div>
+    <canvas id="treeCanvas"></canvas>
+  </div>
+</div>
+
+<script>
+// ─── Tokenizer ─────────────────────────────────────────────────────
+function tokenize(expr) {
+  // Normalize unicode minus/dash
+  expr = expr.replace(/[–—−]/g, '-');
+  const tokens = [];
+  let i = 0;
+  while (i < expr.length) {
+    const c = expr[i];
+    if (/\s/.test(c)) { i++; continue; }
+    if (c === '(' || c === ')') { tokens.push(c); i++; continue; }
+    if (/[+\-*/^]/.test(c)) { tokens.push(c); i++; continue; }
+    // operand: letters/numbers
+    if (/[a-zA-Z0-9_.]/.test(c)) {
+      let s = '';
+      while (i < expr.length && /[a-zA-Z0-9_.]/.test(expr[i])) { s += expr[i++]; }
+      tokens.push(s);
+      continue;
+    }
+    throw new Error(`Unknown character: '${c}'`);
+  }
+  return tokens;
+}
+
+// ─── Parser (recursive descent) ────────────────────────────────────
+let tokens = [], pos = 0;
+
+function peek() { return tokens[pos]; }
+function consume() { return tokens[pos++]; }
+
+function parseExpr() { return parseAddSub(); }
+
+function parseAddSub() {
+  let left = parseMulDiv();
+  while (peek() === '+' || peek() === '-') {
+    const op = consume();
+    const right = parseMulDiv();
+    left = { val: op, left, right };
+  }
+  return left;
+}
+
+function parseMulDiv() {
+  let left = parsePrimary();
+  while (peek() === '*' || peek() === '/') {
+    const op = consume();
+    const right = parsePrimary();
+    left = { val: op, left, right };
+  }
+  return left;
+}
+
+function parsePrimary() {
+  if (peek() === '(') {
+    consume(); // '('
+    const node = parseExpr();
+    if (peek() !== ')') throw new Error("Expected ')'");
+    consume(); // ')'
+    return node;
+  }
+  const t = peek();
+  if (t === undefined) throw new Error('Unexpected end of expression');
+  if (/[+\-*/^]/.test(t)) throw new Error(`Unexpected operator: '${t}'`);
+  consume();
+  return { val: t, left: null, right: null };
+}
+
+function parse(expr) {
+  tokens = tokenize(expr);
+  pos = 0;
+  const tree = parseExpr();
+  if (pos < tokens.length) throw new Error(`Unexpected token: '${tokens[pos]}'`);
+  return tree;
+}
+
+// ─── Traversals ────────────────────────────────────────────────────
+function prefix(node) {
+  if (!node) return '';
+  const l = prefix(node.left), r = prefix(node.right);
+  return node.val + (l ? l : '') + (r ? r : '');
+}
+
+function postfix(node) {
+  if (!node) return '';
+  const l = postfix(node.left), r = postfix(node.right);
+  return (l ? l : '') + (r ? r : '') + node.val;
+}
+
+// ─── Layout ────────────────────────────────────────────────────────
+function treeWidth(node) {
+  if (!node) return 0;
+  return Math.max(1, treeWidth(node.left) + treeWidth(node.right));
+}
+
+function assignPositions(node, depth, left, right, positions) {
+  if (!node) return;
+  const x = (left + right) / 2;
+  const y = depth;
+  positions.set(node, { x, y });
+  assignPositions(node.left, depth + 1, left, x, positions);
+  assignPositions(node.right, depth + 1, x, right, positions);
+}
+
+// ─── Draw ──────────────────────────────────────────────────────────
+const canvas = document.getElementById('treeCanvas');
+const ctx = canvas.getContext('2d');
+
+const R = 24;         // node radius
+const LEVEL_H = 82;  // px per depth level
+const PADDING = 40;
+
+let animNodes = [];
+let animIdx = 0;
+let animTimer = null;
+
+function drawTree(root) {
+  if (!root) {
+    canvas.height = 80;
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = '#444c56';
+    ctx.font = "14px 'JetBrains Mono'";
+    ctx.textAlign = 'center';
+    ctx.fillText('No tree', canvas.width / 2, 40);
+    return;
+  }
+
+  const positions = new Map();
+  const w = treeWidth(root);
+  assignPositions(root, 0, 0, w, positions);
+
+  // Get depth
+  let maxDepth = 0;
+  for (const { y } of positions.values()) maxDepth = Math.max(maxDepth, y);
+
+  // Scale positions to canvas
+  const cw = canvas.parentElement.clientWidth - 32;
+  const ch = (maxDepth + 1) * LEVEL_H + PADDING * 2;
+  canvas.width = cw;
+  canvas.height = ch;
+  ctx.clearRect(0, 0, cw, ch);
+
+  function cx(pos) { return PADDING + (pos.x / w) * (cw - PADDING * 2); }
+  function cy(pos) { return PADDING + pos.y * LEVEL_H; }
+
+  // Draw edges
+  function drawEdges(node) {
+    if (!node) return;
+    const p = positions.get(node);
+    if (node.left) {
+      const lp = positions.get(node.left);
+      ctx.beginPath();
+      ctx.moveTo(cx(p), cy(p));
+      ctx.lineTo(cx(lp), cy(lp));
+      ctx.strokeStyle = 'rgba(0,212,212,0.35)';
+      ctx.lineWidth = 1.8;
+      ctx.stroke();
+      drawEdges(node.left);
+    }
+    if (node.right) {
+      const rp = positions.get(node.right);
+      ctx.beginPath();
+      ctx.moveTo(cx(p), cy(p));
+      ctx.lineTo(cx(rp), cy(rp));
+      ctx.strokeStyle = 'rgba(0,212,212,0.35)';
+      ctx.lineWidth = 1.8;
+      ctx.stroke();
+      drawEdges(node.right);
+    }
+  }
+  drawEdges(root);
+
+  // Draw nodes
+  function drawNode(node, highlight) {
+    const p = positions.get(node);
+    const x = cx(p), y = cy(p);
+    const isOp = /^[+\-*/^]$/.test(node.val);
+
+    ctx.save();
+    ctx.shadowColor = highlight ? '#00d4d4' : (isOp ? '#00d4d460' : '#0000');
+    ctx.shadowBlur = highlight ? 20 : 10;
+
+    ctx.beginPath();
+    ctx.arc(x, y, R, 0, Math.PI * 2);
+    ctx.fillStyle = highlight ? '#00d4d4' : (isOp ? '#1c2333' : '#141b28');
+    ctx.fill();
+    ctx.strokeStyle = highlight ? '#00ffff' : (isOp ? '#00d4d4' : '#58a6ff55');
+    ctx.lineWidth = isOp ? 2 : 1.5;
+    ctx.stroke();
+    ctx.restore();
+
+    ctx.fillStyle = highlight ? '#0d1117' : '#e6edf3';
+    ctx.font = `bold 13px 'JetBrains Mono'`;
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText(node.val, x, y);
+  }
+
+  // Collect all nodes BFS order for animation
+  animNodes = [];
+  const queue = [root];
+  while (queue.length) {
+    const n = queue.shift();
+    animNodes.push(n);
+    if (n.left) queue.push(n.left);
+    if (n.right) queue.push(n.right);
+  }
+
+  // Animate drawing nodes one by one
+  if (animTimer) clearInterval(animTimer);
+  animIdx = 0;
+  const drawn = new Set();
+
+  animTimer = setInterval(() => {
+    if (animIdx >= animNodes.length) {
+      clearInterval(animTimer);
+      return;
+    }
+    // redraw all edges (already drawn)
+    ctx.clearRect(0, 0, cw, ch);
+    drawEdges(root);
+
+    drawn.add(animNodes[animIdx]);
+    animIdx++;
+
+    for (const n of animNodes) {
+      if (!drawn.has(n)) continue;
+      const isNew = n === animNodes[animIdx - 1];
+      drawNode(n, isNew);
+    }
+
+    // After brief highlight, re-render normally
+    if (animIdx === animNodes.length) {
+      setTimeout(() => {
+        ctx.clearRect(0, 0, cw, ch);
+        drawEdges(root);
+        for (const n of animNodes) drawNode(n, false);
+      }, 400);
+    }
+  }, 200);
+}
+
+// ─── Main ──────────────────────────────────────────────────────────
+let currentRoot = null;
+
+function buildTree() {
+  const expr = document.getElementById('exprInput').value.trim();
+  const errEl = document.getElementById('errMsg');
+  errEl.textContent = '';
+  document.getElementById('prefixOut').textContent = '—';
+  document.getElementById('postfixOut').textContent = '—';
+
+  if (!expr) { errEl.textContent = 'Please enter an expression.'; return; }
+
+  try {
+    currentRoot = parse(expr);
+    document.getElementById('prefixOut').textContent = prefix(currentRoot);
+    document.getElementById('postfixOut').textContent = postfix(currentRoot);
+    drawTree(currentRoot);
+  } catch (e) {
+    errEl.textContent = '⚠ ' + e.message;
+    currentRoot = null;
+    drawTree(null);
+  }
+}
+
+window.addEventListener('resize', () => {
+  if (currentRoot) drawTree(currentRoot);
+});
+
+document.getElementById('exprInput').addEventListener('keydown', e => {
+  if (e.key === 'Enter') buildTree();
+});
+
+// Auto-build on load
+buildTree();
+</script>
+</body>
+</html>

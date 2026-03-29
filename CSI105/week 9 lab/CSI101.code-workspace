@@ -1,0 +1,13 @@
+{
+	"folders": [
+		{
+			"path": "../../CSI101"
+		},
+		{
+			"path": ".."
+		}
+	],
+	"settings": {
+		"liveServer.settings.multiRootWorkspaceName": "CSI105"
+	}
+}

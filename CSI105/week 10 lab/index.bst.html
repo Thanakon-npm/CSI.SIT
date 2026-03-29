@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BST Visualizer</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Sarabun:wght@300;400;600&display=swap');
+
+  :root {
+    --bg: #0d1117;
+    --surface: #161b22;
+    --surface2: #1c2333;
+    --border: #30363d;
+    --text: #e6edf3;
+    --text-muted: #7d8590;
+    --cyan: #00d4d4;
+    --green: #1a7f4b;
+    --green-light: #2ea043;
+    --red: #6e1a1a;
+    --red-light: #da3633;
+    --node-bg: #1c2333;
+    --node-border: #58a6ff;
+    --node-highlight: #00d4d4;
+    --node-found: #3fb950;
+    --node-delete: #f85149;
+    --edge: #444c56;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Sarabun', sans-serif;
+    min-height: 100vh;
+    padding: 24px;
+  }
+
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px;
+    max-width: 960px;
+    margin: 0 auto;
+  }
+
+  h1 {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 1.6rem;
+    font-weight: 700;
+    margin-bottom: 6px;
+  }
+
+  .subtitle {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    margin-bottom: 24px;
+    line-height: 1.6;
+  }
+
+  .subtitle span { color: var(--cyan); font-weight: 600; }
+
+  label {
+    display: block;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    margin-bottom: 6px;
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  input[type=text] {
+    width: 100%;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    color: var(--text);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.9rem;
+    padding: 9px 12px;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+
+  input[type=text]:focus { border-color: var(--cyan); }
+
+  .row { display: flex; gap: 12px; margin-bottom: 16px; align-items: flex-end; }
+
+  button {
+    border: none;
+    border-radius: 6px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.85rem;
+    font-weight: 600;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: opacity 0.15s, transform 0.1s;
+    white-space: nowrap;
+  }
+
+  button:active { transform: scale(0.97); }
+
+  .btn-build { background: var(--cyan); color: #0d1117; flex: 1; }
+  .btn-reset { background: var(--surface2); color: var(--text); border: 1px solid var(--border); }
+  .btn-search { background: var(--node-border); color: #0d1117; width: 100%; margin-top: 8px; }
+  .btn-add { background: var(--green-light); color: #fff; width: 100%; margin-top: 8px; }
+  .btn-delete { background: var(--red-light); color: #fff; width: 100%; margin-top: 8px; }
+  .btn-traversal {
+    background: var(--surface2);
+    color: var(--text);
+    border: 1px solid var(--border);
+    padding: 8px 14px;
+    font-size: 0.78rem;
+  }
+  .btn-traversal:hover { border-color: var(--cyan); color: var(--cyan); }
+
+  .ops-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+
+  .op-box {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 14px;
+  }
+
+  .traversal-row {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    margin-bottom: 12px;
+    flex-wrap: wrap;
+  }
+
+  .status-msg {
+    margin-left: auto;
+    font-size: 0.82rem;
+    font-family: 'JetBrains Mono', monospace;
+    min-width: 120px;
+    text-align: right;
+  }
+
+  .output-box {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 14px;
+    margin-bottom: 16px;
+    min-height: 54px;
+  }
+
+  .output-box .out-label {
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    font-family: 'JetBrains Mono', monospace;
+    margin-bottom: 6px;
+  }
+
+  .out-values {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.9rem;
+    color: var(--cyan);
+    min-height: 20px;
+  }
+
+  .graph-box {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 14px;
+  }
+
+  .graph-label {
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    font-family: 'JetBrains Mono', monospace;
+    margin-bottom: 8px;
+  }
+
+  canvas {
+    display: block;
+    width: 100%;
+    height: 340px;
+    border-radius: 6px;
+  }
+</style>
+</head>
+<body>
+<div class="card">
+  <h1>BST Visualizer <span style="color:var(--text-muted);font-size:1rem">(Animation)</span></h1>
+  <p class="subtitle">
+    ใส่ตัวเลขเพื่อสร้าง Binary Search Tree แล้วกด <span>Search / Add / Delete</span> แบบหลายค่า พร้อมแอนิเมชัน และ animate traversal: <strong>in-order, pre-order, post-order</strong>
+  </p>
+
+  <!-- Build -->
+  <label>Build (multi)</label>
+  <div class="row">
+    <input type="text" id="buildInput" value="7, 3, 9, 1, 5, 8, 10" placeholder="e.g. 7, 3, 9, 1, 5, 8, 10">
+    <button class="btn-build" onclick="buildBST()">Build BST</button>
+    <button class="btn-reset" onclick="resetAll()">Reset</button>
+  </div>
+
+  <!-- Operations -->
+  <div class="ops-grid">
+    <div class="op-box">
+      <label>Search (multi)</label>
+      <input type="text" id="searchInput" placeholder="5, 6, 10">
+      <button class="btn-search" onclick="doSearch()">Search</button>
+    </div>
+    <div class="op-box">
+      <label>Add (multi)</label>
+      <input type="text" id="addInput" placeholder="6, 2">
+      <button class="btn-add" onclick="doAdd()">Add</button>
+    </div>
+    <div class="op-box">
+      <label>Delete (multi)</label>
+      <input type="text" id="deleteInput" placeholder="3, 9">
+      <button class="btn-delete" onclick="doDelete()">Delete</button>
+    </div>
+  </div>
+
+  <!-- Traversal -->
+  <div class="traversal-row">
+    <button class="btn-traversal" onclick="animateTraversal('inorder')">Animate In-order</button>
+    <button class="btn-traversal" onclick="animateTraversal('preorder')">Animate Pre-order</button>
+    <button class="btn-traversal" onclick="animateTraversal('postorder')">Animate Post-order</button>
+    <div class="status-msg" id="statusMsg"></div>
+  </div>
+
+  <!-- Output -->
+  <div class="output-box">
+    <div class="out-label">Traversal output (animated)</div>
+    <div class="out-values" id="traversalOutput">-</div>
+  </div>
+
+  <!-- Graph -->
+  <div class="graph-box">
+    <div class="graph-label">BST Graph</div>
+    <canvas id="bstCanvas"></canvas>
+  </div>
+</div>
+
+<script>
+// ─── BST Node & Tree ───────────────────────────────────────────────
+class BSTNode {
+  constructor(val) {
+    this.val = val;
+    this.left = null;
+    this.right = null;
+  }
+}
+
+let root = null;
+let nodePositions = {}; // val -> {x, y}
+let highlightNodes = {}; // val -> color
+let animTimer = null;
+
+function insert(node, val) {
+  if (!node) return new BSTNode(val);
+  if (val < node.val) node.left = insert(node.left, val);
+  else if (val > node.val) node.right = insert(node.right, val);
+  return node;
+}
+
+function search(node, val) {
+  if (!node) return false;
+  if (val === node.val) return true;
+  if (val < node.val) return search(node.left, val);
+  return search(node.right, val);
+}
+
+function deleteNode(node, val) {
+  if (!node) return null;
+  if (val < node.val) { node.left = deleteNode(node.left, val); }
+  else if (val > node.val) { node.right = deleteNode(node.right, val); }
+  else {
+    if (!node.left) return node.right;
+    if (!node.right) return node.left;
+    let succ = node.right;
+    while (succ.left) succ = succ.left;
+    node.val = succ.val;
+    node.right = deleteNode(node.right, succ.val);
+  }
+  return node;
+}
+
+function inorder(node, res=[]) {
+  if (!node) return res;
+  inorder(node.left, res); res.push(node.val); inorder(node.right, res);
+  return res;
+}
+function preorder(node, res=[]) {
+  if (!node) return res;
+  res.push(node.val); preorder(node.left, res); preorder(node.right, res);
+  return res;
+}
+function postorder(node, res=[]) {
+  if (!node) return res;
+  postorder(node.left, res); postorder(node.right, res); res.push(node.val);
+  return res;
+}
+
+// ─── UI Actions ────────────────────────────────────────────────────
+function parseNums(str) {
+  return str.split(/[\s,]+/).map(s=>s.trim()).filter(s=>s!=='').map(Number).filter(n=>!isNaN(n));
+}
+
+function buildBST() {
+  clearAnim();
+  root = null;
+  highlightNodes = {};
+  const nums = parseNums(document.getElementById('buildInput').value);
+  for (const n of nums) root = insert(root, n);
+  setStatus('Built ✓', 'var(--cyan)');
+  clearOutput();
+  draw();
+}
+
+function doSearch() {
+  clearAnim();
+  highlightNodes = {};
+  const nums = parseNums(document.getElementById('searchInput').value);
+  const found = [], notFound = [];
+  for (const n of nums) {
+    if (search(root, n)) { found.push(n); highlightNodes[n] = 'var(--node-found)'; }
+    else notFound.push(n);
+  }
+  let msg = '';
+  if (found.length) msg += `Found: ${found.join(', ')}`;
+  if (notFound.length) msg += (msg?' | ':'') + `Not found: ${notFound.join(', ')}`;
+  setStatus(msg || 'No input', 'var(--node-found)');
+  draw();
+}
+
+function doAdd() {
+  clearAnim();
+  const nums = parseNums(document.getElementById('addInput').value);
+  for (const n of nums) {
+    root = insert(root, n);
+    highlightNodes[n] = 'var(--cyan)';
+  }
+  setStatus(`Added: ${nums.join(', ')}`, 'var(--cyan)');
+  clearOutput();
+  draw();
+  setTimeout(() => { highlightNodes = {}; draw(); }, 1500);
+}
+
+function doDelete() {
+  clearAnim();
+  const nums = parseNums(document.getElementById('deleteInput').value);
+  const deleted = [], missing = [];
+  for (const n of nums) {
+    if (search(root, n)) { deleted.push(n); }
+    else missing.push(n);
+  }
+  // Flash red then delete
+  for (const n of deleted) highlightNodes[n] = 'var(--node-delete)';
+  draw();
+  setTimeout(() => {
+    for (const n of deleted) root = deleteNode(root, n);
+    highlightNodes = {};
+    let msg = deleted.length ? `Deleted: ${deleted.join(', ')}` : '';
+    if (missing.length) msg += (msg?' | ':'') + `Not found: ${missing.join(', ')}`;
+    setStatus(msg || 'No input', 'var(--red-light)');
+    clearOutput();
+    draw();
+  }, 700);
+}
+
+function animateTraversal(type) {
+  clearAnim();
+  highlightNodes = {};
+  if (!root) { setStatus('Tree is empty', 'var(--text-muted)'); return; }
+  let seq;
+  if (type === 'inorder') seq = inorder(root);
+  else if (type === 'preorder') seq = preorder(root);
+  else seq = postorder(root);
+
+  document.getElementById('traversalOutput').textContent = '';
+  let i = 0;
+  const shown = [];
+
+  animTimer = setInterval(() => {
+    if (i > 0) highlightNodes[seq[i-1]] = '#444c56';
+    highlightNodes[seq[i]] = 'var(--node-found)';
+    shown.push(seq[i]);
+    document.getElementById('traversalOutput').textContent = shown.join(' → ');
+    draw();
+    i++;
+    if (i >= seq.length) {
+      clearInterval(animTimer);
+      animTimer = null;
+      setTimeout(() => { highlightNodes = {}; draw(); }, 900);
+    }
+  }, 500);
+}
+
+function clearAnim() {
+  if (animTimer) { clearInterval(animTimer); animTimer = null; }
+}
+
+function setStatus(msg, color) {
+  const el = document.getElementById('statusMsg');
+  el.textContent = msg;
+  el.style.color = color || 'var(--text-muted)';
+}
+
+function clearOutput() {
+  document.getElementById('traversalOutput').textContent = '-';
+}
+
+function resetAll() {
+  clearAnim();
+  root = null;
+  highlightNodes = {};
+  nodePositions = {};
+  setStatus('', '');
+  clearOutput();
+  draw();
+}
+
+// ─── Canvas Drawing ────────────────────────────────────────────────
+const canvas = document.getElementById('bstCanvas');
+const ctx = canvas.getContext('2d');
+
+function resizeCanvas() {
+  const rect = canvas.parentElement.getBoundingClientRect();
+  canvas.width = rect.width - 28;
+  canvas.height = 340;
+  draw();
+}
+
+function computePositions(node, depth, left, right, positions) {
+  if (!node) return;
+  const x = (left + right) / 2;
+  const y = 40 + depth * 80;
+  positions[node.val] = { x, y };
+  computePositions(node.left, depth + 1, left, x, positions);
+  computePositions(node.right, depth + 1, x, right, positions);
+}
+
+function draw() {
+  const W = canvas.width, H = canvas.height;
+  ctx.clearRect(0, 0, W, H);
+
+  if (!root) {
+    ctx.fillStyle = '#444c56';
+    ctx.font = "14px 'JetBrains Mono'";
+    ctx.textAlign = 'center';
+    ctx.fillText('Empty tree — build one above', W/2, H/2);
+    return;
+  }
+
+  nodePositions = {};
+  computePositions(root, 0, 0, W, nodePositions);
+
+  // Draw edges
+  drawEdges(root);
+
+  // Draw nodes
+  for (const [val, pos] of Object.entries(nodePositions)) {
+    drawNode(parseInt(val), pos.x, pos.y);
+  }
+}
+
+function drawEdges(node) {
+  if (!node) return;
+  const pos = nodePositions[node.val];
+  if (node.left) {
+    const lpos = nodePositions[node.left.val];
+    ctx.beginPath();
+    ctx.moveTo(pos.x, pos.y);
+    ctx.lineTo(lpos.x, lpos.y);
+    ctx.strokeStyle = '#444c56';
+    ctx.lineWidth = 1.5;
+    ctx.stroke();
+    drawEdges(node.left);
+  }
+  if (node.right) {
+    const rpos = nodePositions[node.right.val];
+    ctx.beginPath();
+    ctx.moveTo(pos.x, pos.y);
+    ctx.lineTo(rpos.x, rpos.y);
+    ctx.strokeStyle = '#444c56';
+    ctx.lineWidth = 1.5;
+    ctx.stroke();
+    drawEdges(node.right);
+  }
+}
+
+function drawNode(val, x, y) {
+  const r = 22;
+  const hlColor = highlightNodes[val];
+
+  // Shadow
+  ctx.save();
+  ctx.shadowColor = hlColor ? hlColor : '#00d4d455';
+  ctx.shadowBlur = hlColor ? 18 : 8;
+
+  // Circle
+  ctx.beginPath();
+  ctx.arc(x, y, r, 0, Math.PI * 2);
+  ctx.fillStyle = hlColor ? hlColor : '#1c2333';
+  ctx.fill();
+  ctx.strokeStyle = hlColor ? hlColor : '#58a6ff';
+  ctx.lineWidth = 2;
+  ctx.stroke();
+  ctx.restore();
+
+  // Text
+  ctx.fillStyle = hlColor ? '#0d1117' : '#e6edf3';
+  ctx.font = "bold 13px 'JetBrains Mono'";
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+  ctx.fillText(val, x, y);
+}
+
+window.addEventListener('resize', resizeCanvas);
+setTimeout(resizeCanvas, 50);
+</script>
+</body>
+</html>
