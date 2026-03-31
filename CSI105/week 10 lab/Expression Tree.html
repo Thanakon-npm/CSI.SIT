@@ -184,7 +184,8 @@ function tokenize(expr) {
     const c = expr[i];
     if (/\s/.test(c)) { i++; continue; }
     if (c === '(' || c === ')') { tokens.push(c); i++; continue; }
-    if (/[+\-*/^]/.test(c)) { tokens.push(c); i++; continue; }
+    if (c === '*' && expr[i+1] === '*') { tokens.push('**'); i += 2; continue; }
+    if (/[+\-*x/^]/.test(c)) { tokens.push(c); i++; continue; }
     // operand: letters/numbers
     if (/[a-zA-Z0-9_.]/.test(c)) {
       let s = '';
@@ -216,8 +217,18 @@ function parseAddSub() {
 }
 
 function parseMulDiv() {
+  let left = parsePower();
+  while (peek() === '*' || peek() === '/' || peek() === 'x') {
+    const op = consume();
+    const right = parsePower();
+    left = { val: op, left, right };
+  }
+  return left;
+}
+
+function parsePower() {
   let left = parsePrimary();
-  while (peek() === '*' || peek() === '/') {
+  while (peek() === '^' || peek() === '**') {
     const op = consume();
     const right = parsePrimary();
     left = { val: op, left, right };
