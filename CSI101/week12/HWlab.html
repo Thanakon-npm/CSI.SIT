@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title></title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link href="css/style.css" rel="stylesheet" />
+  </head>
+  <body>
+    <!DOCTYPE html>
+    <html lang="th">
+      <head>
+        <meta charset="UTF-8" />
+        <title>แบบฝึกหัด Function JavaScript</title>
+      </head>
+      <body>
+        <h1>แบบฝึกหัด Function JavaScript</h1>
+
+        <h2>1. คำนวณพื้นที่สี่เหลี่ยมผืนผ้า</h2>
+        กว้าง: <input type="number" id="width" /> สูง:
+        <input type="number" id="height" />
+        <button onclick="calcArea()">คำนวณ</button>
+        <p id="areaResult"></p>
+
+        <hr />
+
+        <h2>2. ตรวจสอบเลขคู่-เลขคี่</h2>
+        ตัวเลข: <input type="number" id="evenInput" />
+        <button onclick="checkEven()">ตรวจสอบ</button>
+        <p id="evenResult"></p>
+
+        <hr />
+
+        <h2>3. หาผลรวมของเลขในอาเรย์</h2>
+        ป้อนตัวเลขคั่นด้วยเครื่องหมายจุลภาค เช่น 1,2,3,4
+        <br />
+        <input type="text" id="arrayInput" />
+        <button onclick="sumArrayBtn()">หาผลรวม</button>
+        <p id="arrayResult"></p>
+
+        <hr />
+
+        <h2>4. ฟังก์ชันแบบ Arrow Function</h2>
+        ตัวเลข: <input type="number" id="squareInput" />
+        <button onclick="squareNumber()">คำนวณกำลังสอง</button>
+        <p id="squareResult"></p>
+
+        <script>
+          // 1. ฟังก์ชันคำนวณพื้นที่สี่เหลี่ยมผืนผ้า
+          function calculateRectangleArea(width, height) {
+            return width * height;
+          }
+
+          function calcArea() {
+            const w = parseFloat(document.getElementById("width").value);
+            const h = parseFloat(document.getElementById("height").value);
+
+            const area = calculateRectangleArea(w, h);
+
+            document.getElementById("areaResult").innerText =
+              "พื้นที่ = " + area;
+            console.log("พื้นที่:", area);
+          }
+
+          // 2. ฟังก์ชันตรวจสอบเลขคู่-เลขคี่
+          function isEven(number) {
+            if (number % 2 === 0) {
+              return "Even";
+            } else {
+              return "Odd";
+            }
+          }
+
+          function checkEven() {
+            const n = parseFloat(document.getElementById("evenInput").value);
+            document.getElementById("evenResult").innerText =
+              "ผลลัพธ์: " + isEven(n);
+          }
+
+          // 3. ฟังก์ชันหาผลรวมในอาเรย์
+          function sumArray(numbers) {
+            let total = 0;
+            for (let i = 0; i < numbers.length; i++) {
+              total += numbers[i];
+            }
+            return total;
+          }
+
+          function sumArrayBtn() {
+            const text = document.getElementById("arrayInput").value;
+            const arr = text.split(",").map(Number);
+            const result = sumArray(arr);
+
+            document.getElementById("arrayResult").innerText =
+              "ผลรวม = " + result;
+          }
+
+          // 4. Arrow Function หาค่ากำลังสอง
+          const square = (x) => x * x;
+
+          function squareNumber() {
+            const n = parseFloat(document.getElementById("squareInput").value);
+            document.getElementById("squareResult").innerText =
+              "กำลังสอง = " + square(n);
+          }
+        </script>
+      </body>
+    </html>
+  </body>
+</html>

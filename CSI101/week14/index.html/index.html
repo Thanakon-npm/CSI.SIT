@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>แบบฝึกหัด HTML & JS Loop</title>
+    <style>
+        body {
+            font-family: 'Sarabun', sans-serif;
+            background-color: #FFF8E1; /* โทนเหลืองตามภาพ */
+            padding: 20px;
+            text-align: center;
+        }
+        .container {
+            background: white;
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 20px;
+            border-radius: 15px;
+            border: 3px solid #FFD54F;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        h2 { color: #F57F17; }
+        input {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #FF6F00;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 5px;
+        }
+        button:hover { background-color: #E65100; }
+        .output-box {
+            margin-top: 20px;
+            text-align: left;
+            padding: 15px;
+            background-color: #f9f9f9;
+            border-radius: 10px;
+            border: 1px dashed #ccc;
+            min-height: 50px;
+        }
+        /* จัด CSS สำหรับตารางสูตรคูณให้ดูง่าย */
+        .multiplication-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 10px;
+        }
+        .mul-table {
+            border: 1px solid #ddd;
+            padding: 5px;
+            border-radius: 5px;
+            background: #fff;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2>ข้อ 1: แยกตัวอักษรและเติม (!)</h2>
+        <p>รับชื่อแล้วพิมพ์ตัวอักษรทีละตัวตามด้วย (!)</p>
+        
+        <input type="text" id="nameInput" placeholder="Input name (e.g. LISA)">
+        <br><br>
+        <button onclick="runProblem1_While()">ใช้ While Loop</button>
+        <button onclick="runProblem1_DoWhile()">ใช้ Do-While Loop</button>
+
+        <div id="output1" class="output-box">ผลลัพธ์จะแสดงที่นี่...</div>
+    </div>
+
+    <div class="container">
+        <h2>ข้อ 2: สูตรคูณแม่ 2 ถึง 12</h2>
+        <p>แสดงผลลัพธ์การคูณ 1 ถึง 12</p>
+        
+        <button onclick="runProblem2()">คำนวณสูตรคูณ (Run)</button>
+
+        <div id="output2" class="output-box">ผลลัพธ์จะแสดงที่นี่...</div>
+    </div>
+
+    <script>
+        // --- ฟังก์ชันสำหรับโจทย์ข้อ 1 ---
+        
+        function runProblem1_While() {
+            let name = document.getElementById("nameInput").value;
+            let outputDiv = document.getElementById("output1");
+            outputDiv.innerHTML = ""; // ล้างค่าเก่า
+            
+            if (!name) {
+                outputDiv.innerHTML = "กรุณากรอกชื่อก่อนครับ";
+                return;
+            }
+
+            outputDiv.innerHTML += "<strong>Result (Using While):</strong><br>";
+            
+            let i = 0;
+            // ใช้ While Loop ตามโจทย์
+            while (i < name.length) {
+                // พิมพ์ตัวอักษรตามด้วย ! และขึ้นบรรทัดใหม่ <br>
+                outputDiv.innerHTML += name[i] + "!<br>";
+                i++;
+            }
+        }
+
+        function runProblem1_DoWhile() {
+            let name = document.getElementById("nameInput").value;
+            let outputDiv = document.getElementById("output1");
+            outputDiv.innerHTML = ""; 
+            
+            if (!name) {
+                outputDiv.innerHTML = "กรุณากรอกชื่อก่อนครับ";
+                return;
+            }
+
+            outputDiv.innerHTML += "<strong>Result (Using Do-While):</strong><br>";
+
+            let i = 0;
+            // ใช้ Do-While Loop ตามโจทย์
+            do {
+                outputDiv.innerHTML += name[i] + "!<br>";
+                i++;
+            } while (i < name.length);
+        }
+
+        // --- ฟังก์ชันสำหรับโจทย์ข้อ 2 ---
+
+        function runProblem2() {
+            let outputDiv = document.getElementById("output2");
+            outputDiv.innerHTML = "<div class='multiplication-grid'></div>"; // สร้าง Grid รอไว้
+            let gridContainer = outputDiv.querySelector('.multiplication-grid');
+
+            let parentTable = 2; // เริ่มแม่ 2
+
+            // Loop นอก: ใช้ While (แม่ 2 ถึง 12)
+            while (parentTable <= 12) {
+                
+                // สร้างกล่องสำหรับแม่สูตรคูณนั้นๆ
+                let tableHTML = `<div class='mul-table'><strong>แม่ ${parentTable}</strong><br>`;
+                
+                let multiplier = 1; // ตัวคูณเริ่มที่ 1
+
+                // Loop ใน: ใช้ Do-While (คูณ 1 ถึง 12)
+                do {
+                    let result = multiplier * parentTable;
+                    // จัดรูปแบบ 1 x 2 = 2
+                    tableHTML += `${multiplier} x ${parentTable} = ${result}<br>`;
+                    multiplier++;
+                } while (multiplier <= 12);
+
+                tableHTML += "</div>"; // ปิดกล่อง
+                gridContainer.innerHTML += tableHTML;
+
+                parentTable++; // ขยับไปแม่ถัดไป
+            }
+        }
+    </script>
+</body>
+</html>

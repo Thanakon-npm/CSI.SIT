@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title></title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="css/style.css" rel="stylesheet">
+  </head>
+  <body>
+  <input type="number" id="age" placeholder="กรุณาใส่อายุของคุณ">
+  <button onclick="checkAge()">ตรวจสอบอายุ</button>
+
+  <p id="result"></p>
+  <script>
+    function checkAge() {
+      let age = document.getElementById("age").value;
+      let message;
+      if (age <= 0 ) {
+        message = "มึงยังไม่เกิด";
+      } else if (age >= 18 && age < 100) {
+        message = "มึงมีสิทธิ์ลงคะแนนเสียง";
+      } else if (age >= 100 ) {
+        message = "มึงตายแล้วอิสัส";
+      }
+    
+    document.getElementById("result").innerText = message;
+    }
+  </script>
+  </body>
+</html>

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <title>แบบฝึกหัด for loop</title>
+  <style>
+    body {
+      font-family: "Kanit", sans-serif;
+      background-color: #fff6cc;
+      text-align: center;
+      padding: 20px;
+    }
+    h2 {
+      color: #ff6600;
+    }
+    input {
+      padding: 5px;
+      font-size: 16px;
+    }
+    button {
+      margin-top: 10px;
+      padding: 6px 12px;
+      background-color: #ffb84d;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #ff9900;
+    }
+    pre {
+      text-align: left;
+      display: inline-block;
+      background: white;
+      padding: 15px 25px;
+      border-radius: 10px;
+      margin-top: 15px;
+      box-shadow: 0 0 8px rgba(0,0,0,0.1);
+    }
+  </style>
+</head>
+<body>
+
+  <h2>พิมพ์ตัวอักษรของชื่อแต่ละตัวตามด้วย !</h2>
+
+  <label for="nameInput">Input name:</label>
+  <input type="text" id="nameInput" placeholder="พิมพ์ชื่อที่นี่">
+  <br>
+  <button onclick="showName()">OK</button>
+
+  <pre id="result"></pre>
+
+  <script>
+    function showName() {
+  const name = document.getElementById("nameInput").value;
+  const result = document.getElementById("result");
+  let output = "";
+
+  // ใช้ for loop ในการวนซ้ำทีละตัวอักษร
+  for (let i = 0; i < name.length; i++) {
+    output += name[i] + "!\n";
+  }
+
+  result.textContent = output;
+}
+
+  </script>
+
+</body>
+</html>

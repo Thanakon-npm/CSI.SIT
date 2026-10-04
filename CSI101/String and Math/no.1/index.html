@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="th">
+  <head>
+    <meta charset="UTF-8" />
+    <title>คำนวณค่าดัชนีมวลกาย (BMI)</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <h2>คำนวณค่าดัชนีมวลกาย (BMI)</h2>
+      <label for="weight">น้ำหนัก (กิโลกรัม):</label>
+      <input type="number" id="weight" placeholder="เช่น 60" /> <br>
+
+      <label for="height">ส่วนสูง (เซนติเมตร):</label>
+      <input type="number" id="height" placeholder="เช่น 170" /> <br>
+
+      <button onclick="calculateBMI()">คำนวณ BMI</button>
+
+      <div id="result"></div>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>

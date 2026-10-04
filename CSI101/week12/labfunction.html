@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title></title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link href="css/style.css" rel="stylesheet" />
+  </head>
+  <body>
+    <script>
+      function currentData() {
+        let date = new Date().toDateString();
+        console.log("The current date is: " + date);
+      }
+      function sayhi(name) {
+        console.log("Hi " + name + "!");
+      }
+      currentData();
+      sayhi("John");
+      sayhi("JavaScript");
+
+      // function บวกเลข
+      function sum(a, b) {
+        return a + b;
+      }
+      console.log("5 + 10 = " + sum(5, 10));
+      console.log("1 + -3 = " + sum(1, -3));
+
+      let doubleSum = sum(5, 5) * 2;
+      console.log("(5+5) * 2 += " + doubleSum);
+
+      function factorial(n) {
+        let fac = 1;
+        for (let i = 1; i <= n; i++) {
+          fac *= i;
+        }
+        return fac;
+      }
+      console.log("0! = " + factorial(0));
+      console.log("1! = " + factorial(1));
+      console.log("2! = " + factorial(2));
+      console.log("3! = " + factorial(3));
+      console.log("4! = " + factorial(4));
+
+      let sayHiname = function (name) {
+        console.log("Hi " + name + "!");
+      };
+      let sumvalue = function (a, b) {
+        return a + b;
+      };
+
+      sayHiname("Alice");
+      console.log("7 + 8 = " + sumvalue(7, 8));
+
+      function sayhi2(name = "Guest") {
+        console.log("Hi " + name + "!");
+      }
+      sayhi2();
+      sayhi2("BMW");
+
+      function sum_restPam(...numbers) {
+        let s = 0;
+        for (let n of numbers) {
+          s += n;
+        }
+        return s;
+      }
+      console.log(sum_restPam(2, 3));
+      console.log(sum_restPam(1, 2, 3, 4, 5));
+      console.log(sum_restPam(10, 20, 30, 40, 50, 60));
+
+      function isPrime(n){
+        if (n == 1 ){
+          return false;
+        }
+        for (let i = 2 ; i <= n ; i++){
+          if (n % i == 0 && n !== i ){
+            return false;
+          }
+        }
+        return true;
+      }
+
+      let PrimeNumbers = [] ;
+      for (let i = 1; i<= 100 ; i++){
+        if (isPrime(i)){
+          PrimeNumbers.push(i);
+        }
+      }
+      console.log("Prime numbers from 1 to 100: ");
+      console.log(PrimeNumbers.join(","));
+      console.log(PrimeNumbers.length+" numbers in total.")
+    </script>
+  </body>
+</html>

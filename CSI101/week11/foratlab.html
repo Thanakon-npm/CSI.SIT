@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>loop at lab</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link href="css/style.css" rel="stylesheet" />
+  </head>
+  <body>
+    <script>
+      for (let i = 1; i <= 5; i++) {
+        console.log(i);
+      }
+      console.log("End of loop");
+
+      for (let i = 0, j = 100; i != j; i += 5, j -= 5) {
+        console.log("i = %d, j = %d", i, j);
+      }
+      console.log("i,j Loop ended");
+
+      let i = 5;
+      for (; i >= 0; ) {
+        console.log("Count down %d", i);
+        i--;
+      }
+      console.log("Loop ended");
+
+      let fruits = ["Apple", "Banana", "Orange", "Grape", "Lemon"];
+      console.log("List of fruits");
+      for (let i = 0; i < fruits.length; i++) {
+        console.log("%d. %s", i + 1, fruits[i]);
+      }
+
+      let languages = ["GO", "JavaScript", "PHP", "Python", "Ruby"];
+      console.log("List of programming languages (reversed)");
+
+      let count = 1;
+      for (let i = languages.length - 1; i >= 0; i--) {
+        console.log("%d. %s", count, languages[i]);
+        count++;
+      }
+
+      for (let i = 1; i <= 10; i++) {
+        console.log(i);
+        if (i == 5) {
+          break;
+        }
+      }
+      console.log("Loop with break ended");
+
+      for (let i = 1; i <= 10; i++) {
+        if (i % 2 == 1) {
+          continue;
+        }
+        console.log(i);
+      }
+      console.log("Loop with continue ended");
+
+      let buffer = "";
+      let size = 8;
+      for (let i = 1; i <= size; i++) {
+        for (let j = 1; j <= i; j++) {
+          buffer += j;
+        }
+        buffer += "\n";
+      }
+      console.log(buffer);
+    </script>
+  </body>
+</html>

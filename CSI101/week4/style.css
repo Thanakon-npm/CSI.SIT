@@ -1,0 +1,90 @@
+img {
+  float: left;
+  margin: 50px;
+  width: 200px;
+}
+p {
+  font-size: 16px;
+  line-height: 1.5;
+}
+a:link {
+  color: chocolate;
+  text-decoration: none;
+}
+a:visited {
+  color: lightblue;
+}
+a:hover {
+  color: red;
+  text-decoration: underline;
+}
+a:active {
+  color: yellow;
+}
+.block {
+  display: block;
+  background-color: chartreuse;
+  margin: 5px;
+  padding: 10px;
+  /* visibility: hidden; การซ่อนวัตถุ */
+}
+.Inline {
+  display: inline;
+  background-color: lightgrey;
+  margin: 5px;
+  padding: 10px;
+}
+.Inline-block {
+  display: inline-block;
+  background-color: lightpink;
+  margin: 5px;
+  padding: 10px;
+  width: 100px;
+  height: 100px;
+  text-align: center;
+} 
+.static {
+  background-color: lightgreen;
+  position: static;
+}
+.relative {
+  background-color: lightblue;
+  position: relative;
+  top: 20px;
+  left: 20px;
+}
+.absolute {
+  background-color: lightcoral;
+  position: absolute;
+  top: 20px;
+  left: 20px;
+}
+.fixed {
+  background-color: lightsalmon;
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  opacity: 0.5;
+}
+.sticky {
+  background-color: lightseagreen;
+  position: sticky;
+  top: 0 ;
+}
+.box {
+  width: 100px;
+  height: 100px;
+  color: white;
+  text-align: center ;
+  line-height: 100px;
+  margin: 10px;
+}
+.box2 {
+  width: 200px;
+  height: 200px;
+  border: 10px solid black;
+  margin: 10px;
+}
+.scroll {
+  overflow: auto;
+}

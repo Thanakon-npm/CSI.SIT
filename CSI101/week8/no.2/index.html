@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="th">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>คำนวณรายได้</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <h1>คำนวณรายได้และโบนัส</h1>
+
+    <div>
+      <label for="salary">เงินเดือน (บาท):</label>
+      <input type="number" id="salary" placeholder="กรอกเงินเดือน" />
+    </div>
+
+    <div>
+      <label for="commission">ค่านายหน้า (บาท):</label>
+      <input type="number" id="commission" placeholder="กรอกค่านายหน้า" />
+    </div>
+
+    <div>
+      <label for="income">รายได้อื่น ๆ (บาท):</label>
+      <input type="number" id="income" placeholder="กรอกรายได้อื่น" />
+    </div>
+
+    <button onclick="calculateIncome()">คำนวณ</button>
+
+    <h2>ผลลัพธ์</h2>
+    <div id="result"></div>
+
+    <script src="script.js"></script>
+  </body>
+</html>

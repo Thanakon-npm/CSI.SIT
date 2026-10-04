@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <title>แสดงสูตรคูณด้วย do...while</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        #output { white-space: pre-wrap; margin-top: 10px; border: 1px solid #ccc; padding: 10px; min-height: 50px; }
+    </style>
+</head>
+<body>
+
+    <h1>โจทย์ที่ 2 — แสดงสูตรคูณ</h1>
+    <p>ป้อนตัวเลข (1-12) แล้วกดปุ่มเพื่อแสดงสูตรคูณของเลขนั้นโดยใช้ **do...while**</p>
+
+    <label for="numberInput">ป้อนตัวเลข (1-12):</label>
+    <input type="number" id="numberInput" min="1" max="12" value="1">
+    <button onclick="showMultiplicationTable()">แสดงสูตรคูณ</button>
+
+    <div id="output"></div>
+
+    <script>
+      function showMultiplicationTable() {
+    // 1. รับค่าตัวเลขจากผู้ใช้
+    const inputElement = document.getElementById('numberInput');
+    const number = parseInt(inputElement.value);
+    const outputElement = document.getElementById('output');
+    
+    // 2. ตรวจสอบความถูกต้องของข้อมูล (ต้องเป็นตัวเลขระหว่าง 1 ถึง 12)
+    if (isNaN(number) || number < 1 || number > 12) {
+        outputElement.textContent = "❌ กรุณาป้อนตัวเลขที่ถูกต้องระหว่าง 1 ถึง 12";
+        return;
+    }
+
+    // 3. เตรียมการแสดงผล
+    let resultHTML = `**สูตรคูณแม่ ${number}**\n\n`;
+    let i = 1; // ตัวแปรสำหรับคูณ เริ่มต้นที่ 1
+
+    // 4. ใช้ do...while loop เพื่อคำนวณและสร้างสูตรคูณ
+    do {
+        const result = number * i;
+        resultHTML += `${number} x ${i} = ${result}\n`;
+        i++; // เพิ่มค่าตัวคูณ
+    } while (i <= 12); // เงื่อนไข: ทำซ้ำจนกระทั่งตัวคูณถึง 12
+
+    // 5. แสดงผลลัพธ์ในส่วน output
+    outputElement.innerHTML = resultHTML;
+}
+    </script>
+</body>
+</html>

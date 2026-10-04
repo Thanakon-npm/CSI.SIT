@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <title>ข้อ 3 - หาผลรวมและค่าเฉลี่ย</title>
+  <style>
+    body {
+      font-family: "Kanit", sans-serif;
+      background-color: #fff6cc;
+      text-align: center;
+      padding: 40px;
+    }
+    h1 {
+      color: #ff6600;
+    }
+    input {
+      margin: 5px;
+      padding: 5px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      width: 80px;
+      text-align: center;
+    }
+    button {
+      margin-top: 10px;
+      background-color: #ffb84d;
+      border: none;
+      border-radius: 8px;
+      padding: 8px 16px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #ff9900;
+    }
+    .result {
+      margin-top: 20px;
+      background: white;
+      display: inline-block;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 8px rgba(0,0,0,0.1);
+    }
+  </style>
+</head>
+<body>
+
+  <h1>ข้อ 3: หาผลรวมและค่าเฉลี่ยของตัวเลข n ถึง m</h1>
+
+  <div>
+    <label>กรอกค่า n:</label>
+    <input type="number" id="nValue" value="1">
+    <label>กรอกค่า m:</label>
+    <input type="number" id="mValue" value="10">
+  </div>
+
+  <button onclick="calculateSumAndAverage()">คำนวณ</button>
+
+  <div class="result" id="result"></div>
+
+  <script>
+    function calculateSumAndAverage() {
+      const n = parseInt(document.getElementById("nValue").value);
+      const m = parseInt(document.getElementById("mValue").value);
+
+      if (n > m) {
+        document.getElementById("result").innerHTML = "❌ กรุณาใส่ค่า n น้อยกว่าหรือเท่ากับ m";
+        return;
+      }
+
+      let sum = 0;
+      let count = 0;
+
+      for (let i = n; i <= m; i++) {
+        sum += i;
+        count++;
+      }
+
+      const average = sum / count;
+
+      document.getElementById("result").innerHTML = `
+        ✅ ผลรวมของเลขจาก ${n} ถึง ${m} = ${sum}<br>
+        ✅ ค่าเฉลี่ย = ${average.toFixed(2)}
+      `;
+    }
+  </script>
+
+</body>
+</html>

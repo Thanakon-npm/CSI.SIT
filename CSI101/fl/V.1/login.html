@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="th">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SPU Login</title>
+    <link rel="stylesheet" href="login.css" />
+  </head>
+  <body>
+    <div class="login-container">
+      <div class="info-section">
+        <div class="logo-box">
+          <img src="spu logo.png" alt="SPU Logo" class="logo-image" />
+        </div>
+        <p class="description">
+          แอพพลิเคชันนี้ถูกพัฒนาขึ้นเพื่อใช้ในการเก็บ<br />
+          ข้อมูลกิจกรรมของนักศึกษา ไม่ว่าจะเป็นกิจกรรม<br />
+          กยศ. หรือ กิจกรรมทั่วไปของมหาวิทยาลัยศรีปทุม<br />
+          โดยมีจุดประสงค์เพื่อช่วยให้นักศึกษาสามารถ<br />
+          บันทึกและติดตามกิจกรรมของตนเองได้อย่างสะดวก<br />
+          รวดเร็ว และโปร่งใส
+        </p>
+        <div class="background-overlay"></div>
+      </div>
+
+      <div class="login-section">
+        <h1 class="login-title">Login</h1>
+        <form action="#" method="POST" class="login-form">
+          <div class="form-group">
+            <label for="username" class="input-label">User</label>
+            <input
+              type="text"
+              id="username"
+              name="username"
+              placeholder="ชื่อผู้ใช้งาน"
+              required
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="password" class="input-label">Password</label>
+            <input
+              type="password"
+              id="password"
+              name="password"
+              placeholder="รหัสผ่าน"
+              required
+            />
+          </div>
+
+          <a href="#" class="reset-password">Reset Password</a>
+
+
+          <a href="Dashboard.html" class="login-button styled-as-button"
+            >เข้าสู่ระบบ</a
+          >
+        </form>
+      </div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>อารเย์</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+  </head>
+  <body>
+    <script>
+      let noMember = [];
+      let number = [10, 20, 30, 40, 50];
+      let countries = ["Thailand", "Japan", "China", "India", "USA"];
+      console.log("Number : " + number);
+      console.log("Countries : " + countries);
+
+      console.log("number[0] : " + number[0]);
+      console.log("number[1] : " + number[1]);
+      console.log("number[2] + number[3] : " , number[2] + number[3]);
+      console.log("number[4]:" ,number[number.length - 1]);
+
+      let fruits = ["apple", "banana", "mango", "orange", "grape"];
+      console.log(fruits);
+      console.log("length of fruits : " + fruits.length);
+      // เพิ่มข้อมูลเข้าไปในอาร์เรย์
+      fruits.push("durian");
+      fruits.push("kiwi");
+      console.log(fruits);
+      console.log("length of fruits : " + fruits.length);
+
+      number.push(5);
+      number.push(15);
+      console.log("After push : " + number);
+      number.unshift(0);
+      number.unshift(-1);
+      console.log("After unshift : " + number);
+      console.log("number[0] :" , number[0]);
+      console.log("number[1] :" , number[1]);
+
+      let items = ["one", "two", "three", "four", "five"];
+      console.log("current in array  : " + items);
+      let item = items.pop();
+      console.log("Removed: " , item);
+      console.log("Current in array  : " + items);
+      console.log("Removed two items:");
+      items.pop();
+      items.pop();
+      console.log("Current in array  : " + items);
+
+      let queue = [];
+      queue.push("first");
+      queue.push("second");
+      queue.push("third");
+      console.log("Current in queue : " + queue);
+      let first = queue.shift();
+      console.log(first + "picked an order amd leave the queue");
+      console.log("Current in queue : " + queue);
+
+      number = [10, 20, 30, 40, 50];
+      let sum = 0;
+      for (let item of number) {
+        sum += item;
+        console.log(item);
+      }
+      console.log("Sum : " + sum);
+
+      let days = [
+        "Sunday",
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday",
+        "Saturday",
+      ];
+      console.log("iterate days of the week:");
+      for (let i = 0 ; i < days.length; i++) {
+        console.log(i, days[i]);
+      }
+      number = [15, 25, 5, 35, 10, 50, 20];
+      for (let  index in number) {
+        console.log("number[" + index + "] = " + number[index]);
+      }
+      
+    </script>
+  </body>
+</html>

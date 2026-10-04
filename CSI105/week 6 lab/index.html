@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Structure Visualization: Stack vs Queue</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Google Fonts for a premium look -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <h1>Data Structure Visualization</h1>
+            <p>Stack (LIFO) vs Queue (FIFO)</p>
+        </header>
+
+        <section class="input-section">
+            <div class="input-wrapper">
+                <input type="text" id="data-input" placeholder="Enter data..." class="premium-input">
+                <button id="add-btn" class="premium-btn">Add</button>
+            </div>
+        </section>
+
+        <div class="structures-container">
+            <!-- Stack Section -->
+            <div class="structure-card stack-card">
+                <div class="card-header">
+                    <h2>Stack</h2>
+                    <p class="subtitle">LIFO (Last In First Out)</p>
+                </div>
+
+                <div class="controls">
+                    <button id="stack-push" class="control-btn push">Push</button>
+                    <button id="stack-pop" class="control-btn pop">Pop</button>
+                    <button id="stack-top" class="control-btn top">Top</button>
+                    <button id="stack-clear" class="control-btn clear">Clear</button>
+                </div>
+
+                <div class="result-display" id="stack-result">
+                    <span class="label">Result:</span> <span class="value" id="stack-message">Waiting for
+                        action...</span>
+                </div>
+
+                <div class="visual-area">
+                    <div class="stack-container" id="stack-container">
+                        <!-- Stack items will appear here -->
+                    </div>
+                    <div class="base"></div>
+                </div>
+            </div>
+
+            <!-- Queue Section -->
+            <div class="structure-card queue-card">
+                <div class="card-header">
+                    <h2>Queue</h2>
+                    <p class="subtitle">FIFO (First In First Out)</p>
+                </div>
+
+                <div class="controls">
+                    <button id="queue-enqueue" class="control-btn enqueue">Enqueue</button>
+                    <button id="queue-dequeue" class="control-btn dequeue">Dequeue</button>
+                    <button id="queue-front" class="control-btn front">Front</button>
+                    <button id="queue-clear" class="control-btn clear">Clear</button>
+                </div>
+
+                <div class="result-display" id="queue-result">
+                    <span class="label">Result:</span> <span class="value" id="queue-message">Waiting for
+                        action...</span>
+                </div>
+
+                <div class="visual-area">
+                    <div class="queue-container-wrapper">
+                        <div class="queue-label front-label">FRONT</div>
+                        <div class="queue-container" id="queue-container">
+                            <!-- Queue items will appear here -->
+                        </div>
+                        <div class="queue-label rear-label">REAR</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+
+</html>

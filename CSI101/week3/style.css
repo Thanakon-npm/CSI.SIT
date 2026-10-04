@@ -1,0 +1,62 @@
+body {
+  font-family: serif; 
+  font-size: 200%;
+  font-weight: bold;
+  font-style: oblique;
+  text-align: center;
+}
+.box1 {
+  width: 300px;
+  height: 100px;
+  background-color: springgreen;
+  font-size: 2em;
+  margin-top: 5vh;
+}
+.box2 {
+  width: 50%;
+  height: 100px;
+  background-color: lightblue;
+  font-size: 2em;
+  margin-top: 5vh;
+  border-radius: 10px;
+}
+
+/* CSS Document */
+* {
+  color: black;
+}
+p {
+  color: rgb(1, 96, 70);
+}
+.title {
+  font-size: 30px;
+  font-weight: bold;
+  color: rgb(3, 97, 155);
+}
+/* sTYLE OF ID MESSAGE */
+#message {
+  text-align: center;
+  font-size: 100px;
+  font-weight: bold;
+  color: rgb(255, 0, 0);
+}
+.title,
+#message,
+#box {
+  color: rgb(30, 25, 45);
+  text-align: left;
+  font-size: 50px;
+  text-decoration: underline;
+}
+p.error {
+  color: blueviolet;
+  font-weight: bold;
+  text-align: center;
+  font-size: 50px;
+}
+p.success {
+  color: blueviolet;
+  font-weight: bold;
+  text-align: center;
+  font-size: 50px;
+}

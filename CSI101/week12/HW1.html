@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <title>คำนวณราคาหนังสือ</title>
+  <style>
+    body { font-family: sans-serif; padding: 20px; }
+    input, button { margin: 5px 0; padding: 8px; }
+  </style>
+</head>
+<body>
+  <h2>โปรโมชั่นร้านหนังสือ</h2>
+  <label>จำนวนหนังสือ:</label><br>
+  <input type="number" id="bookCount" min="1"><br>
+
+  <label>ราคารวม (บาท):</label><br>
+  <input type="number" id="totalPrice" min="0"><br>
+
+  <button onclick="calculatePrice()">คำนวณราคาที่ต้องจ่าย</button>
+
+  <h3 id="result"></h3>
+
+  <script>
+    function calculateDiscount(bookCount, totalPrice) {
+      if (bookCount > 3 && totalPrice > 500) {
+        return totalPrice * 0.9; // ลด 10%
+      } else {
+        return totalPrice; // ไม่ลด
+      }
+    }
+
+    function calculatePrice() {
+      const bookCount = parseInt(document.getElementById("bookCount").value);
+      const totalPrice = parseFloat(document.getElementById("totalPrice").value);
+
+      if (isNaN(bookCount) || isNaN(totalPrice)) {
+        document.getElementById("result").innerText = "กรุณากรอกข้อมูลให้ครบถ้วน";
+        return;
+      }
+
+      const finalPrice = calculateDiscount(bookCount, totalPrice);
+      document.getElementById("result").innerText = `ราคาที่ต้องจ่ายคือ ${finalPrice.toFixed(2)} บาท`;
+    }
+  </script>
+</body>
+</html>
