@@ -1,0 +1,18 @@
+@keyframes ball-spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* กำหนดคุณสมบัติให้ลูกบอลหมุนรอบจุดศูนย์กลางอย่างถูกต้องและภาพไม่หลุดขอบ */
+.ballspin {
+  display: block;
+  transform-origin: center center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  box-sizing: border-box;
+}
