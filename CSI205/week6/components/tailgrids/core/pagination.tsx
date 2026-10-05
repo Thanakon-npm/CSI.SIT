@@ -6,11 +6,11 @@ import { cva } from "class-variance-authority";
 import { Button } from "./button";
 
 const wrapperStyles = cva(
-  "mx-auto flex w-full items-center justify-center max-sm:gap-5",
+  "mx-auto flex w-fit items-center justify-center gap-1",
   {
     variants: {
       variant: {
-        default: "gap-0.5",
+        default: "gap-1",
         compact: "max-w-fit sm:divide-x sm:divide-button-outline-border"
       }
     }
@@ -52,10 +52,10 @@ export function Pagination({
     <nav
       role="navigation"
       aria-label="Pagination"
-      className="w-full text-sm font-medium text-body-50"
+      className="w-fit text-sm font-medium text-body-50"
     >
       <ul className={wrapperStyles({ variant })}>
-        <li className="mr-auto">
+        <li className={sideLayout === "icon" ? "" : "mr-auto"}>
           <Button
             appearance="outline"
             size="sm"
@@ -141,7 +141,7 @@ export function Pagination({
           );
         })}
 
-        <li className="ml-auto">
+        <li className={sideLayout === "icon" ? "" : "ml-auto"}>
           <Button
             size="sm"
             appearance="outline"
@@ -184,7 +184,7 @@ function PaginationButton({
       className={cn(
         "size-10 shrink-0 rounded-lg aria-[current=page]:bg-background-soft-100 hover:bg-background-soft-100",
         paginationVariant === "compact" &&
-          "rounded-none border-y border-button-outline-border bg-button-outline-background"
+        "rounded-none border-y border-button-outline-border bg-button-outline-background"
       )}
       onClick={() => onPageChange?.(page)}
     >
